@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 
 function PremiumInner() {
   const searchParams = useSearchParams()
@@ -56,6 +57,10 @@ function PremiumInner() {
 
   return (
     <div className="max-w-xl bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md text-center border border-gray-300 dark:border-white/10">
+       <div className="flex justify-center items-center gap-3 mb-6 animate-fade-in-down">
+            <Logo />
+            <h1 className="text-2xl font-bold text-white">Caption Wizard AI</h1>
+        </div>
       {loading && <p className="text-lg">⏳ Verifying your premium status...</p>}
 
       {!loading && email && (
