@@ -68,8 +68,9 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <main className="flex-grow overflow-y-auto hide-scrollbar">
               {children}
+              <Footer />
             </main>
-            <Footer />
+            
           </div>
         </UserProvider>
       </body>
