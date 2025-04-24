@@ -1,4 +1,10 @@
 import { NextResponse } from 'next/server'
+import { LogSnag } from 'logsnag'
+
+const logsnag = new LogSnag({
+  token: process.env.LOGSNAG_API_KEY!,
+  project: 'instacaption',
+})
 
 export async function POST(req: Request) {
   const { description, tone } = await req.json()
@@ -23,7 +29,7 @@ Write 3 different Instagram captions in a ${tone} tone based on this scene:
       headers: {
         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://yourdomain.com', // Optional, for OpenRouter usage tracking
+        'HTTP-Referer': 'https://yourdomain.com', // optional
       },
       body: JSON.stringify({
         model: 'deepseek/deepseek-chat',
@@ -32,7 +38,7 @@ Write 3 different Instagram captions in a ${tone} tone based on this scene:
           { role: 'user', content: prompt },
         ],
         temperature: 0.9,
-        max_tokens: 200,
+        max_tokens: 100,
       }),
     })
 
@@ -43,6 +49,18 @@ Write 3 different Instagram captions in a ${tone} tone based on this scene:
       .split(/\n+/)
       .map((line: string) => line.replace(/^[-•\d.]+\s*/, '').trim())
       .filter((line: string) => line.length > 0)
+
+    // ✅ LogSnag event
+    await logsnag.track({
+      channel: 'caption',
+      event: 'Caption Generated',
+      icon: '💬',
+      description: `Tone: ${tone}`,
+      tags: {
+        tone,
+        prompt: description.slice(0, 50) + '...',
+      },
+    })
 
     return NextResponse.json({ captions })
   } catch (err) {
