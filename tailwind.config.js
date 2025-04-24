@@ -5,6 +5,6 @@ module.exports = {
     theme: {
       extend: {},
     },
-    plugins: [],
+    plugins: [import('tailwind-scrollbar')],
   }
   

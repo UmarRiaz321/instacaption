@@ -105,7 +105,7 @@ export default function Home() {
             <div className="text-center text-green-400 mb-4">
               {isPremium && (
                 <div className="flex justify-center mb-4">
-                  <PremiumBadge /> 
+                  <PremiumBadge />
                 </div>
               )}
               {!isPremium && (
@@ -163,23 +163,27 @@ export default function Home() {
           {captions.length > 0 && (
             <div className="mt-6 bg-[#222] p-5 rounded-lg border border-white/10 transition">
               <h2 className="font-semibold text-indigo-300 mb-4">📝 Choose Your Caption:</h2>
-              <ul className="space-y-3">
-                {captions.map((text, i) => (
-                  <li
-                    key={i}
-                    className="flex justify-between items-center bg-[#111] p-3 rounded border border-white/10"
-                  >
-                    <span className="text-sm text-white">{text}</span>
-                    <button
-                      title="Copy caption"
-                      className="text-lg hover:text-green-400 transition"
-                      onClick={() => handleCopy(text, i)}
+
+              <div className="max-h-[400px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                <ul className="space-y-3">
+                  {captions.map((text, i) => (
+                    <li
+                      key={i}
+                      className="flex justify-between items-center bg-[#111] p-3 rounded border border-white/10"
                     >
-                      {copiedIndex === i ? '✅' : '📋'}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                      <span className="text-sm text-white">{text}</span>
+                      <button
+                        title="Copy caption"
+                        className="text-lg hover:text-green-400 transition"
+                        onClick={() => handleCopy(text, i)}
+                      >
+                        {copiedIndex === i ? '✅' : '📋'}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               <div className="mt-4 text-right">
                 <button
                   title="Regenerate"
@@ -191,6 +195,7 @@ export default function Home() {
               </div>
             </div>
           )}
+
 
           {/* {!isPremium && <InviteBox />} */}
         </div>
