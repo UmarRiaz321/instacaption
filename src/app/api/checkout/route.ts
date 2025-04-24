@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-03-31.basil',
+  apiVersion: '2025-03-31.basil', // Updated to match the expected type
 })
 
 export async function POST() {
@@ -13,17 +13,17 @@ export async function POST() {
       line_items: [
         {
           price_data: {
-            currency: 'usd',
+            currency: 'gbp', // 🇬🇧 British Pounds
             product_data: {
               name: 'Premium Caption Access',
             },
-            unit_amount: 500, // $5.00
+            unit_amount: 500, // £5.00 in pence
           },
           quantity: 1,
         },
       ],
-      success_url: 'http://localhost:3000/premium?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://localhost:3000/?canceled=true',
+      success_url: 'https://captionwizard.pro/success?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://captionwizard.pro/?canceled=true',
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
       customer_creation: 'always',
