@@ -148,7 +148,7 @@ export default function Home() {
               onClick={handlePremium}
               className="w-full mb-6 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg"
             >
-              🌟 Unlock Premium Tones – $5
+              🌟 Unlock Premium Tones – £5
             </button>
           )}
 
