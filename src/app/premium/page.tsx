@@ -38,7 +38,6 @@ function PremiumInner() {
 
         setEmail(data.email)
 
-        // Save email to Supabase
         await fetch('/api/save-user', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -56,34 +55,35 @@ function PremiumInner() {
   }, [sessionId])
 
   return (
-    <div className="max-w-xl bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md text-center border border-gray-300 dark:border-white/10">
-       <div className="flex justify-center items-center gap-3 mb-6 animate-fade-in-down">
-            <Logo />
-            <h1 className="text-2xl font-bold text-white">Caption Wizard AI</h1>
-        </div>
-      {loading && <p className="text-lg">⏳ Verifying your premium status...</p>}
+    <div className="w-full max-w-xl mx-auto p-8 bg-white border border-gray-200 rounded-xl shadow-sm text-center space-y-4">
+      <div className="flex justify-center items-center gap-3 mb-4">
+        <Logo />
+        <h1 className="text-2xl font-bold text-gray-800">Caption Wizard AI</h1>
+      </div>
+
+      {loading && <p className="text-lg text-gray-600">⏳ Verifying your premium status...</p>}
 
       {!loading && email && (
         <>
-          <h1 className="text-3xl font-bold mb-4">🎉 Premium Unlocked!</h1>
-          <p className="text-lg mb-4">Welcome, <strong>{email}</strong></p>
-          <p className="text-md mb-6">You now have full access to exclusive caption tools.</p>
+          <h2 className="text-3xl font-bold text-green-600">🎉 Premium Unlocked!</h2>
+          <p className="text-gray-700">Welcome, <strong>{email}</strong></p>
+          <p className="text-sm text-gray-500">You now have full access to exclusive caption tools.</p>
           <Link
             href="/"
-            className="inline-block px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+            className="inline-block mt-4 px-5 py-2 bg-indigo-100 text-indigo-800 font-semibold rounded-full hover:bg-indigo-200 transition"
           >
-            ← Start Creating Premium Captions
+            ← Start Creating Captions
           </Link>
         </>
       )}
 
       {!loading && error && (
         <>
-          <h1 className="text-2xl font-semibold mb-4 text-red-500">❌ Verification Failed</h1>
-          <p>{error}</p>
+          <h2 className="text-2xl font-semibold text-red-500">❌ Verification Failed</h2>
+          <p className="text-sm text-gray-500">{error}</p>
           <Link
             href="/"
-            className="inline-block mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition"
+            className="inline-block mt-4 px-4 py-2 bg-gray-300 text-gray-800 rounded-full hover:bg-gray-400 transition"
           >
             ← Back to Homepage
           </Link>
@@ -95,8 +95,8 @@ function PremiumInner() {
 
 export default function PremiumPage() {
   return (
-    <main className="min-h-screen flex items-center justify-center p-6 bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white transition">
-      <Suspense fallback={<p className="text-center text-lg">⏳ Loading...</p>}>
+    <main className="min-h-screen bg-[#f4f4fb] text-gray-800 p-6 flex items-center justify-center transition-all">
+      <Suspense fallback={<p className="text-center text-lg text-gray-600">⏳ Loading...</p>}>
         <PremiumInner />
       </Suspense>
     </main>
