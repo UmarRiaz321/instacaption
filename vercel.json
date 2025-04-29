@@ -1,0 +1,9 @@
+{
+    "cron": [
+      {
+        "path": "/api/cron/check-invites",
+        "schedule": "0 0 * * *" 
+      }
+    ]
+  }
+  

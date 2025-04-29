@@ -14,9 +14,13 @@ export async function POST(req: Request) {
   }
 
   try {
+    // 1. Insert into premium_users table
     const { data, error } = await supabase
       .from('premium_users')
-      .insert([{ email }])
+      .insert([{ 
+        email,
+        premium_type: 'paid'
+      }])
       .select()
 
     if (error) {
@@ -24,9 +28,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Could not save user' }, { status: 500 })
     }
 
-    return NextResponse.json({ message: 'User saved', data })
+    // 2. Send LogSnag Notification (NEW ✨)
+    await fetch('https://api.logsnag.com/v1/event', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.LOGSNAG_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        project: 'caption-wizard', // Make sure this matches your LogSnag project
+        channel: 'premium',         // You can name the channel anything you want
+        event: 'New Premium User',
+        description: `${email} just upgraded to Premium! 🎉`,
+        icon: '🌟',
+        notify: true,
+      }),
+    })
+
+    return NextResponse.json({ message: 'User saved and notification sent', data })
   } catch (err) {
     console.error('Unexpected error:', err)
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

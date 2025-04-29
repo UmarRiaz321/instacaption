@@ -13,23 +13,28 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Missing email' }, { status: 400 })
   }
 
-  // Check whitelist table
-  const { data: whitelisted } = await supabase
-    .from('whitelist_users')
-    .select('email')
-    .eq('email', email)
-    .single()
-
-  // Check Stripe subscribers table
-  const { data: subscribed } = await supabase
+  const { data: user, error } = await supabase
     .from('premium_users')
-    .select('email')
+    .select('*')
     .eq('email', email)
-    .single()
+    .maybeSingle()
 
-  if (whitelisted || subscribed) {
-    return NextResponse.json({ premium: true })
+  if (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Database error' }, { status: 500 })
   }
 
-  return NextResponse.json({ premium: false })
+  if (!user) {
+    return NextResponse.json({ premium: false })
+  }
+
+  // Handle "invited" expiry
+  if (user.premium_type === 'invited' && user.expires_at) {
+    if (new Date(user.expires_at) < new Date()) {
+      return NextResponse.json({ premium: false, expired: true })
+    }
+  }
+
+  // Paid users or valid invited users
+  return NextResponse.json({ premium: true })
 }

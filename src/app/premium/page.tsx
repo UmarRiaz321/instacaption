@@ -5,9 +5,11 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 
+
 function PremiumInner() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
+  
 
   const [email, setEmail] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)

@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Header />
             </header>
 
-            <main className="flex-grow overflow-y-auto hide-scrollbar">
+            <main className="flex-grow  overflow-y-auto hide-scrollbar">
               {children}
             </main>
 

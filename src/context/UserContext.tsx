@@ -22,7 +22,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const storedEmail = localStorage.getItem('caption_user_email')
+
     if (storedEmail) {
+      setEmail(storedEmail) // ✅ Always set email first!
+
       fetch('/api/check-premium', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,8 +35,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         .then((data) => {
           if (data.premium) {
             setIsPremium(true)
-            setEmail(storedEmail)
+          } else {
+            setIsPremium(false)
           }
+        })
+        .catch(() => {
+          setIsPremium(false)
         })
     }
   }, [])

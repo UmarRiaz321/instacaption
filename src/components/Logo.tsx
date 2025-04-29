@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export default function Logo({ className = '' }: { className?: string }) {
   return (
-    <div className={`rounded-full overflow-hidden w-12 h-12  ${className}`}>
+    <div className={`rounded-full overflow-hidden w-12 h-12 shadow-sm ${className}`}>
       <Image
         src="/darklogo.svg"
         alt="Caption Wizard AI"
