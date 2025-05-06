@@ -15,15 +15,18 @@ export default function Footer() {
         </Link>
       </p>
       <p className="space-x-6">
-        <Link
-          href="/about"
-          className="underline hover:text-indigo-500 transition"
-        >
+        <Link href="/about" className="underline hover:text-indigo-500 transition">
           About
         </Link>
-        {/* <Link href="/privacy" className="underline hover:text-indigo-500 transition">
+        <Link href="/faq" className="underline hover:text-indigo-500 transition">
+          FAQ
+        </Link>
+        <Link href="/privacy" className="underline hover:text-indigo-500 transition">
           Privacy
-        </Link> */}
+        </Link>
+        <Link href="/terms" className="underline hover:text-indigo-500 transition">
+          Terms
+        </Link>
       </p>
     </footer>
   )

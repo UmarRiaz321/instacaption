@@ -3,6 +3,8 @@ import "./styles/globals.css";
 import { UserProvider } from '@/context/UserContext'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header' // Make sure Header exists
+import AdSlot from '@/components/AdSlot'
+
 
 export const metadata: Metadata = {
   title: 'Caption Wizard AI — Generate Perfect Captions for social media with AI',
@@ -57,10 +59,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <header className="sticky top-0 z-50">
               <Header />
             </header>
+            <div className="flex-grow grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,640px)_1fr]">
+              {/* Left sticky ad */}
+              <div className="hidden lg:block relative">
+                <div className="sticky top-24 px-2">
+                  <AdSlot slotId="1234567890" className="h-[600px] w-[160px]" />
+                </div>
+              </div>
 
-            <main className="flex-grow  overflow-y-auto hide-scrollbar">
-              {children}
-            </main>
+
+              <main className="flex-grow  overflow-y-auto hide-scrollbar">
+                {children}
+              </main>
+
+              {/* Right sticky ad */}
+              <div className="hidden lg:block relative">
+                <div className="sticky top-24 px-2">
+                  <AdSlot slotId="0987654321" className="h-[600px] w-[160px]" />
+                </div>
+              </div>
+            </div>
 
             <footer className="sticky bottom-0 z-50">
               <Footer />
