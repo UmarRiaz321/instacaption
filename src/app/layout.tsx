@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import Header from '@/components/Header' // Make sure Header exists
 
 export const metadata: Metadata = {
-  title: 'Caption Wizard AI — Generate Perfect Instagram Captions with AI',
+  title: 'Caption Wizard AI — Generate Perfect Captions for social media with AI',
   description: 'Describe your photo. Choose a vibe. Get 3 perfect captions — funny, luxury, poetic & more. Powered by AI.',
   keywords: [
     'Instagram captions',
@@ -48,6 +48,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-2318193865626108"></meta>
+      </head>
       <body className="bg-[#f4f4fb] text-gray-800 antialiased font-sans">
         <UserProvider>
           <div className="flex flex-col h-screen">
