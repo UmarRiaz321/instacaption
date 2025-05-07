@@ -2,12 +2,17 @@
 
 import { useEffect } from 'react'
 
+declare global {
+  interface Window {
+    adsbygoogle: Array<Record<string, unknown>>;
+  }
+}
+
 export default function AdSlot({ slotId, className = '' }: { slotId: string, className?: string }) {
   useEffect(() => {
     try {
-      // @ts-expect-error
+    
       if (typeof window !== 'undefined' && window.adsbygoogle) {
-        // @ts-ignore
         window.adsbygoogle.push({})
       }
     } catch (e) {
