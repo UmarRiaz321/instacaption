@@ -34,7 +34,7 @@ export function PromptEditor({
       <textarea
         id="description"
         rows={4}
-        className="mt-3 w-full resize-none rounded-2xl border border-transparent bg-white/95 p-4 text-base text-foreground placeholder:text-muted transition focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300/30 dark:bg-[rgba(15,23,42,0.75)]"
+        className="mt-3 w-full resize-none rounded-2xl border border-subtle background-muted p-4 text-base text-foreground placeholder:text-muted transition focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300/30"
         placeholder="I just shot..."
         value={description}
         onChange={(event) => onChange(event.target.value)}

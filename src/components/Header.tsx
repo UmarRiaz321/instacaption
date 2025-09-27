@@ -36,9 +36,6 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="glass-pill hidden rounded-full px-3 py-1 text-xs font-semibold text-emerald-600 transition dark:text-emerald-300 sm:inline-flex">
-              Forever free
-            </span>
             <ThemeToggle />
           </div>
         </nav>
