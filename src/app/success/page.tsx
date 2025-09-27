@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function SuccessPage() {
   return (
-    <Suspense fallback={<div className="text-center text-white p-12">Loading success...</div>}>
+    <Suspense fallback={<div className="p-12 text-center text-muted">Loading success...</div>}>
       <SuccessContent />
     </Suspense>
   )

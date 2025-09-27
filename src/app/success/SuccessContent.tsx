@@ -22,16 +22,16 @@ export default function SuccessContent() {
   }, [sessionId])
 
   return (
-    <main className="min-h-screen bg-[#111] text-white p-6 flex items-center justify-center">
-      <div className="w-full max-w-md bg-[#1a1a1a] p-8 rounded-xl shadow-md text-center border border-white/10">
+    <main className="flex min-h-screen items-center justify-center bg-[var(--background-primary)] p-6 text-foreground">
+      <div className="glass-card w-full max-w-md rounded-2xl p-8 text-center">
         <Logo />
-        <h1 className="text-2xl font-bold mt-3 mb-4">Thank you! 🙌</h1>
-        <p className="text-white/70 text-sm mb-4">{message}</p>
+        <h1 className="mt-3 mb-4 text-2xl font-bold text-foreground">Thank you! 🙌</h1>
+        <p className="mb-4 text-sm text-muted">{message}</p>
 
         {!loading && (
           <Link
             href="/"
-            className="mt-4 inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg"
+            className="mt-4 inline-block rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white shadow-lg shadow-indigo-300/40 transition hover:-translate-y-0.5 hover:bg-indigo-500"
           >
             Go to App →
           </Link>

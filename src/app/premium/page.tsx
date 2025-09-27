@@ -57,22 +57,22 @@ function PremiumInner() {
   }, [sessionId])
 
   return (
-    <div className="w-full max-w-xl mx-auto p-8 bg-white border border-gray-200 rounded-xl shadow-sm text-center space-y-4">
+    <div className="glass-card mx-auto w-full max-w-xl space-y-4 rounded-2xl p-8 text-center">
       <div className="flex justify-center items-center gap-3 mb-4">
         <Logo />
-        <h1 className="text-2xl font-bold text-gray-800">Caption Wizard AI</h1>
+        <h1 className="text-2xl font-bold text-foreground">Caption Wizard AI</h1>
       </div>
 
-      {loading && <p className="text-lg text-gray-600">⏳ Verifying your premium status...</p>}
+      {loading && <p className="text-lg text-muted">⏳ Verifying your premium status...</p>}
 
       {!loading && email && (
         <>
-          <h2 className="text-3xl font-bold text-green-600">🎉 Premium Unlocked!</h2>
-          <p className="text-gray-700">Welcome, <strong>{email}</strong></p>
-          <p className="text-sm text-gray-500">You now have full access to exclusive caption tools.</p>
+          <h2 className="text-3xl font-bold text-emerald-500">🎉 Premium Unlocked!</h2>
+          <p className="text-foreground">Welcome, <strong>{email}</strong></p>
+          <p className="text-sm text-muted">You now have full access to exclusive caption tools.</p>
           <Link
             href="/"
-            className="inline-block mt-4 px-5 py-2 bg-indigo-100 text-indigo-800 font-semibold rounded-full hover:bg-indigo-200 transition"
+            className="glass-pill inline-block mt-4 rounded-full px-5 py-2 text-sm font-semibold text-indigo-600 transition hover:-translate-y-0.5 hover:text-indigo-500"
           >
             ← Start Creating Captions
           </Link>
@@ -81,11 +81,11 @@ function PremiumInner() {
 
       {!loading && error && (
         <>
-          <h2 className="text-2xl font-semibold text-red-500">❌ Verification Failed</h2>
-          <p className="text-sm text-gray-500">{error}</p>
+          <h2 className="text-2xl font-semibold text-rose-500">❌ Verification Failed</h2>
+          <p className="text-sm text-muted">{error}</p>
           <Link
             href="/"
-            className="inline-block mt-4 px-4 py-2 bg-gray-300 text-gray-800 rounded-full hover:bg-gray-400 transition"
+            className="glass-pill inline-block mt-4 rounded-full px-4 py-2 text-sm font-semibold text-foreground transition hover:-translate-y-0.5 hover:text-indigo-500"
           >
             ← Back to Homepage
           </Link>
@@ -97,8 +97,8 @@ function PremiumInner() {
 
 export default function PremiumPage() {
   return (
-    <main className="min-h-screen bg-[#f4f4fb] text-gray-800 p-6 flex items-center justify-center transition-all">
-      <Suspense fallback={<p className="text-center text-lg text-gray-600">⏳ Loading...</p>}>
+    <main className="flex min-h-screen items-center justify-center bg-[var(--background-primary)] p-6 text-foreground transition-all">
+      <Suspense fallback={<p className="text-center text-lg text-muted">⏳ Loading...</p>}>
         <PremiumInner />
       </Suspense>
     </main>

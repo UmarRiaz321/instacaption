@@ -11,8 +11,8 @@ declare global {
 export default function AdSlot({ slotId, className = '' }: { slotId: string, className?: string }) {
   useEffect(() => {
     try {
-    
-      if (typeof window !== 'undefined' && window.adsbygoogle) {
+      if (typeof window !== 'undefined') {
+        window.adsbygoogle = window.adsbygoogle || []
         window.adsbygoogle.push({})
       }
     } catch (e) {

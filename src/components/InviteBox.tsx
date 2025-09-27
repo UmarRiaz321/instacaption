@@ -24,22 +24,22 @@ export default function InviteBox() {
   }
 
   return (
-    <div className="mt-6 bg-white/5 p-4 rounded-md border border-white/10 animate-fade-in-down">
-      <h3 className="text-white text-lg font-semibold mb-2">Invite a friend for free premium 🎁</h3>
+    <div className="glass-card mt-6 rounded-2xl p-5 animate-fade-in-down">
+      <h3 className="text-lg font-semibold text-foreground mb-2">Invite a friend for free premium 🎁</h3>
       <input
         type="email"
         placeholder="Friend's email"
         value={inviteEmail}
         onChange={(e) => setInviteEmail(e.target.value)}
-        className="w-full p-3 rounded-md bg-white/10 border border-white/20 text-white outline-none mb-2"
+        className="glass-pill w-full rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
       />
       <button
         onClick={handleInvite}
-        className="w-full bg-indigo-600 hover:bg-indigo-700 transition px-6 py-2 rounded-md font-semibold"
+        className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-300/40 transition hover:-translate-y-0.5 hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
       >
         Send Invite
       </button>
-      {status && <p className="mt-2 text-sm text-indigo-300">{status}</p>}
+      {status && <p className="mt-3 text-sm text-muted">{status}</p>}
     </div>
   )
 }

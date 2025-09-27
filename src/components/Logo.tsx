@@ -6,7 +6,7 @@ export default function Logo({ className = '' }: { className?: string }) {
   return (
     <div className={`rounded-full overflow-hidden w-12 h-12 shadow-sm ${className}`}>
       <Image
-        src="/darklogo.svg"
+        src="/newlogo.svg"
         alt="Caption Wizard AI"
         width={48}
         height={48}
