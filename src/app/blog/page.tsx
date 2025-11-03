@@ -73,7 +73,7 @@ export default function BlogPage() {
             Caption Wizard AI Newsroom
           </h1>
         </div>
-
+{/* 
         <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
             <div className="space-y-4">
@@ -87,7 +87,7 @@ export default function BlogPage() {
               <AdSlot slotId="blog-hero-001" className="h-60 w-full" />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="grid gap-6">
           <div className="flex items-center justify-between gap-4">

@@ -119,7 +119,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </header>
 
-        <section
+        {/* <section
           className="rounded-3xl border border-indigo-200/60 bg-gradient-to-br from-indigo-50 via-white to-indigo-100 p-8 dark:border-indigo-400/30 dark:from-indigo-950/40 dark:via-slate-950 dark:to-indigo-900/40"
           aria-label={post.heroImageAlt ?? post.title}
         >
@@ -127,7 +127,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             Overview
           </p>
           <p className="mt-4 text-lg text-[var(--foreground-primary)]">{post.shortDescription}</p>
-        </section>
+        </section> */}
 
         <div className="space-y-12">
           {post.content.map((section, index) => (
@@ -155,9 +155,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               )}
               {index === 1 && (
                 <div className="mt-6 rounded-2xl border border-dashed border-indigo-200/60 bg-indigo-50/30 p-4 dark:border-indigo-400/30 dark:bg-indigo-950/20">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-indigo-500">
+                  {/* <p className="mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-indigo-500">
                     Sponsored Placement
-                  </p>
+                  </p> */}
                   <AdSlot slotId="blog-inline-001" className="h-52 w-full" />
                 </div>
               )}
