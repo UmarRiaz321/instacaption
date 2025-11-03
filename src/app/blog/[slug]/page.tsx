@@ -157,11 +157,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {post.heroImageAlt}
             </figcaption>
           </figure>
-          <div className="rounded-3xl border border-indigo-200/60 bg-gradient-to-br from-indigo-50 via-white to-indigo-100 p-8 dark:border-indigo-400/30 dark:from-indigo-950/40 dark:via-slate-950 dark:to-indigo-900/40">
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-indigo-500">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-500">
               Overview
             </p>
-            <p className="mt-4 text-lg text-[var(--foreground-primary)]">{post.shortDescription}</p>
+            <p className="mt-3 text-base leading-relaxed text-muted">{post.shortDescription}</p>
           </div>
         </section>
 
@@ -190,9 +190,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </ul>
               )}
               {index === 1 && (
-                <div className="mt-6 space-y-3 rounded-2xl border border-dashed border-indigo-200/60 bg-indigo-50/30 p-4 dark:border-indigo-400/30 dark:bg-indigo-950/20">
-                  <p className="mb-1 text-xs font-semibold uppercase tracking-[0.35em] text-indigo-500">
+                <div className="mt-6 rounded-xl border border-dashed border-indigo-200 bg-indigo-50/40 p-4 dark:border-indigo-400/40 dark:bg-indigo-950/30">
+                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-500">
                     Sponsored Placement
+                  </p>
+                  <p className="mt-2 text-xs text-muted">
+                    Swap this slot with your live AdSense unit or campaign creative.
                   </p>
                   <AdSlot slotId="blog-inline-001" className="h-52 w-full" />
                 </div>
