@@ -5,6 +5,7 @@ import Logo from './Logo'
 import ThemeToggle from './ThemeToggle'
 
 const links = [
+  { href: '/blog', label: 'Blog' },
   { href: '#generator', label: 'Generator' },
   { href: '#vibes', label: 'Vibes' },
   { href: '#faq', label: 'FAQ' },
