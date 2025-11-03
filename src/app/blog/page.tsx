@@ -97,7 +97,7 @@ export default function BlogPage() {
               </p>
             </div>
             <div className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/40 p-4 dark:border-indigo-400/40 dark:bg-indigo-950/30">
-              <AdSlot slotId="blog-hero-001" className="h-60 w-full" />
+              <AdSlot placement="blog-hero" className="h-60 w-full" />
             </div>
           </div>
         </div> */}
@@ -150,7 +150,7 @@ export default function BlogPage() {
               </ul>
             </div>
             <div className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/40 p-4 dark:border-indigo-400/40 dark:bg-indigo-950/30">
-              <AdSlot slotId="blog-sidebar-001" className="h-96 w-full" />
+              <AdSlot placement="blog-sidebar" className="h-96 w-full" />
             </div>
           </div>
         </div>

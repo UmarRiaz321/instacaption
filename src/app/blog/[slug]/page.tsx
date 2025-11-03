@@ -194,10 +194,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-500">
                     Sponsored Placement
                   </p>
-                  <p className="mt-2 text-xs text-muted">
+                  {/* <p className="mt-2 text-xs text-muted">
                     Swap this slot with your live AdSense unit or campaign creative.
-                  </p>
-                  <AdSlot slotId="blog-inline-001" className="h-52 w-full" />
+                  </p> */}
+                  <AdSlot placement="blog-inline" className="h-52 w-full" />
                 </div>
               )}
             </section>

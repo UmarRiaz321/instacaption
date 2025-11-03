@@ -99,7 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="flex flex-1 flex-col lg:flex-row">
                 <aside className="hidden w-64 shrink-0 lg:block">
                   <div className="sticky top-24 px-4">
-                    <AdSlot slotId="1234567890" className="h-[600px] w-[160px]" />
+                    <AdSlot placement="sidebar-left" className="h-[600px] w-[160px]" />
                   </div>
                 </aside>
                 <main className="flex-1 overflow-x-hidden">
@@ -107,7 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </main>
                 <aside className="hidden w-64 shrink-0 lg:block">
                   <div className="sticky top-24 px-4">
-                    <AdSlot slotId="0987654321" className="h-[600px] w-[160px]" />
+                    <AdSlot placement="sidebar-right" className="h-[600px] w-[160px]" />
                   </div>
                 </aside>
               </div>
