@@ -72,11 +72,6 @@ export default function BlogPage() {
           <h1 className="text-4xl font-bold tracking-tight text-[var(--foreground-primary)] md:text-5xl">
             Caption Wizard AI Newsroom
           </h1>
-          <p className="max-w-2xl text-base text-muted">
-            Explore archived updates on caption performance, AI workflow experiments, and platform
-            changes. Each post is backdated so you can tailor future campaigns with historical
-            context. Swap in final copy, assets, and CTAs when you are ready to publish.
-          </p>
         </div>
 
         <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">

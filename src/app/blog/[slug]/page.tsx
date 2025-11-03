@@ -56,6 +56,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound()
   }
 
+  const articleBody = post.content
+    .flatMap((section) => [
+      section.heading,
+      ...section.paragraphs,
+      ...(section.bullets ?? []),
+    ])
+    .join('\n\n')
+
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -66,6 +74,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     url: `https://captionwizard.pro/blog/${post.slug}`,
     keywords: post.tags.join(', '),
     articleSection: post.category,
+    articleBody,
     publisher: {
       '@type': 'Organization',
       name: 'Caption Wizard AI',
@@ -110,60 +119,50 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </header>
 
-        <figure className="overflow-hidden rounded-3xl border border-dashed border-indigo-200 bg-gradient-to-br from-indigo-100 via-white to-indigo-200 p-8 text-center dark:border-indigo-400/40 dark:from-indigo-950/60 dark:via-slate-950 dark:to-indigo-900/50">
-          <div className="mx-auto flex h-64 w-full max-w-2xl items-center justify-center rounded-2xl border border-indigo-200 border-dashed bg-white/80 text-sm font-medium uppercase tracking-[0.4em] text-indigo-400 dark:border-indigo-400/40 dark:bg-slate-950/60 dark:text-indigo-200">
-            Hero image placeholder
-          </div>
-          <figcaption className="mt-4 text-xs uppercase tracking-[0.3em] text-muted">
-            Swap this block with your final 16:9 hero image or branded graphic.
-          </figcaption>
-        </figure>
+        <section
+          className="rounded-3xl border border-indigo-200/60 bg-gradient-to-br from-indigo-50 via-white to-indigo-100 p-8 dark:border-indigo-400/30 dark:from-indigo-950/40 dark:via-slate-950 dark:to-indigo-900/40"
+          aria-label={post.heroImageAlt ?? post.title}
+        >
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-indigo-500">
+            Overview
+          </p>
+          <p className="mt-4 text-lg text-[var(--foreground-primary)]">{post.shortDescription}</p>
+        </section>
 
         <div className="space-y-12">
-          <section className="space-y-4">
-            <h2 className="text-xl font-semibold text-[var(--foreground-primary)]">Opening Summary</h2>
-            <p className="rounded-2xl border border-dashed border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 text-sm text-muted">
-              Draft two to three sentences that frame the news angle, key takeaway, and who benefits
-              from these insights. Replace this placeholder copy with your finalized introduction.
-            </p>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-xl font-semibold text-[var(--foreground-primary)]">Key Highlights</h2>
-            <ul className="space-y-3 rounded-2xl border border-dashed border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 text-sm text-muted">
-              <li>• Summarize three headline data points, product updates, or campaign wins.</li>
-              <li>• Reference supporting metrics, quotes, or community reactions.</li>
-              <li>• Link internally to product pages, templates, or relevant guides.</li>
-            </ul>
-          </section>
-
-          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">
-            <h2 className="mb-4 text-lg font-semibold text-[var(--foreground-primary)]">Inline Inventory</h2>
-            <p className="mb-4 text-sm text-muted">
-              Embed live AdSense creatives, promo banners, or newsletter CTAs directly within the
-              article body to increase visibility.
-            </p>
-            <div className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/40 p-4 dark:border-indigo-400/40 dark:bg-indigo-950/30">
-              <AdSlot slotId="blog-inline-001" className="h-60 w-full" />
-            </div>
-          </div>
-
-          <section className="space-y-4">
-            <h2 className="text-xl font-semibold text-[var(--foreground-primary)]">Deep Dive Outline</h2>
-            <ol className="space-y-3 rounded-2xl border border-dashed border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 text-sm text-muted">
-              <li>1. Replace with thematic subheading and supporting commentary.</li>
-              <li>2. Add bulletproof examples, quotes, or dataset snapshots.</li>
-              <li>3. Close with action steps, prompt ideas, or notable resources.</li>
-            </ol>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-xl font-semibold text-[var(--foreground-primary)]">Call to Action</h2>
-            <p className="rounded-2xl border border-dashed border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 text-sm text-muted">
-              Close with what readers should do next: generate captions, subscribe to updates, or
-              share the post. Swap this placeholder with persuasive copy and relevant links.
-            </p>
-          </section>
+          {post.content.map((section, index) => (
+            <section
+              key={`${post.slug}-${section.heading}`}
+              className="space-y-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm"
+            >
+              <h2 className="text-xl font-semibold text-[var(--foreground-primary)]">
+                {section.heading}
+              </h2>
+              {section.paragraphs.map((paragraph, paragraphIndex) => (
+                <p key={`${post.slug}-${section.heading}-p-${paragraphIndex}`} className="text-sm leading-relaxed text-muted">
+                  {paragraph}
+                </p>
+              ))}
+              {section.bullets && (
+                <ul className="space-y-2 rounded-xl border border-dashed border-indigo-200/60 bg-indigo-50/40 p-4 text-sm text-muted dark:border-indigo-400/30 dark:bg-indigo-950/30">
+                  {section.bullets.map((item, bulletIndex) => (
+                    <li key={`${post.slug}-${section.heading}-b-${bulletIndex}`} className="flex gap-2">
+                      <span aria-hidden="true">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {index === 1 && (
+                <div className="mt-6 rounded-2xl border border-dashed border-indigo-200/60 bg-indigo-50/30 p-4 dark:border-indigo-400/30 dark:bg-indigo-950/20">
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-indigo-500">
+                    Sponsored Placement
+                  </p>
+                  <AdSlot slotId="blog-inline-001" className="h-52 w-full" />
+                </div>
+              )}
+            </section>
+          ))}
         </div>
       </div>
     </article>

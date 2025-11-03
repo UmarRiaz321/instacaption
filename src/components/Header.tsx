@@ -6,9 +6,9 @@ import ThemeToggle from './ThemeToggle'
 
 const links = [
   { href: '/blog', label: 'Blog' },
-  { href: '#generator', label: 'Generator' },
-  { href: '#vibes', label: 'Vibes' },
-  { href: '#faq', label: 'FAQ' },
+  { href: '/#generator', label: 'Generator' },
+  { href: '/#vibes', label: 'Vibes' },
+  { href: '/#faq', label: 'FAQ' },
 ]
 
 export default function Header() {
