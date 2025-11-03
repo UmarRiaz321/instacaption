@@ -4,10 +4,10 @@ import { notFound } from 'next/navigation'
 import AdSlot from '@/components/AdSlot'
 import { blogPosts } from '@/data/blogPosts'
 
-type BlogPostParams = {
-  params: {
+type BlogPostPageProps = {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 const formatDate = (input: string) =>
@@ -19,8 +19,9 @@ export function generateStaticParams() {
   }))
 }
 
-export function generateMetadata({ params }: BlogPostParams): Metadata {
-  const currentPost = blogPosts.find((post) => post.slug === params.slug)
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const resolvedParams = await params
+  const currentPost = blogPosts.find((post) => post.slug === resolvedParams.slug)
 
   if (!currentPost) {
     return {}
@@ -47,8 +48,9 @@ export function generateMetadata({ params }: BlogPostParams): Metadata {
   }
 }
 
-export default function BlogPostPage({ params }: BlogPostParams) {
-  const post = blogPosts.find((entry) => entry.slug === params.slug)
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const resolvedParams = await params
+  const post = blogPosts.find((entry) => entry.slug === resolvedParams.slug)
 
   if (!post) {
     notFound()
