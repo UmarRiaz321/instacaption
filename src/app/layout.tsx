@@ -69,6 +69,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="light" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-2318193865626108"></meta>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2318193865626108"
+          crossOrigin="anonymous"
+        />
         <ThemeScript />
         <script
           type="application/ld+json"

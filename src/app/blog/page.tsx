@@ -3,6 +3,9 @@ import Link from 'next/link'
 import AdSlot from '@/components/AdSlot'
 import { blogPosts } from '@/data/blogPosts'
 
+const SITE_URL = 'https://captionwizard.pro'
+const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`
+
 export const metadata: Metadata = {
   title: 'Caption Wizard AI Blog — Social Caption Strategies & Updates',
   description:
@@ -14,22 +17,31 @@ export const metadata: Metadata = {
     title: 'Caption Wizard AI Blog',
     description:
       'Discover archived insights on social caption strategy, platform updates, and AI-assisted storytelling.',
-    url: 'https://captionwizard.pro/blog',
+    url: `${SITE_URL}/blog`,
     siteName: 'Caption Wizard AI',
     type: 'website',
+    images: [
+      {
+        url: DEFAULT_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: 'Caption Wizard AI Blog header graphic',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Caption Wizard AI Blog',
     description:
       'Backdated coverage of social caption tactics, performance benchmarks, and AI workflow ideas.',
+    images: [DEFAULT_IMAGE],
   },
 }
 
 const listStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
-  url: 'https://captionwizard.pro/blog',
+  url: `${SITE_URL}/blog`,
   name: 'Caption Wizard AI Blog',
   description:
     'Backdated journal covering caption tactics, performance benchmarks, and Caption Wizard AI product notes.',
@@ -39,13 +51,14 @@ const listStructuredData = {
   },
   blogPost: blogPosts.map((post) => ({
     '@type': 'BlogPosting',
-    url: `https://captionwizard.pro/blog/${post.slug}`,
+    url: `${SITE_URL}/blog/${post.slug}`,
     headline: post.title,
     datePublished: post.publishedAt,
     dateModified: post.publishedAt,
     keywords: post.tags.join(', '),
     articleSection: post.category,
     description: post.shortDescription,
+    image: new URL(post.heroImage, SITE_URL).toString(),
   })),
 } as const
 

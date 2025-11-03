@@ -12,10 +12,14 @@ export type BlogPost = {
   shortDescription: string;
   tags: string[];
   readingTime: string;
+  author: string;
   content: BlogPostSection[];
-  heroImage?: string;
-  heroImageAlt?: string;
+  heroImage: string;
+  heroImageAlt: string;
 };
+
+const DEFAULT_HERO_IMAGE = '/og-image.png';
+const DEFAULT_AUTHOR = 'Caption Wizard AI Editorial Team';
 
 export const blogPosts: BlogPost[] = [
   {
@@ -27,6 +31,8 @@ export const blogPosts: BlogPost[] = [
       'Outline the standout caption formats and tone shifts creators leaned on during the 2024 spring season.',
     tags: ['instagram', 'caption trends', 'spring 2024'],
     readingTime: '6 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Gradient background with caption trend keywords',
     content: [
       {
@@ -65,6 +71,8 @@ export const blogPosts: BlogPost[] = [
       'Summarize high-retention opening lines and story arcs creators used to captivate TikTok audiences.',
     tags: ['tiktok', 'hooks', 'watch time'],
     readingTime: '5 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Abstract shapes representing short-form video engagement',
     content: [
       {
@@ -103,6 +111,8 @@ export const blogPosts: BlogPost[] = [
       'Break down a repeatable caption structure for launch-day excitement, urgency, and conversions.',
     tags: ['product launch', 'sales captions', 'marketing'],
     readingTime: '7 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Minimal mockup of a product announcement post',
     content: [
       {
@@ -142,6 +152,8 @@ export const blogPosts: BlogPost[] = [
       'Capture milestone updates from AI language models and what they unlocked for social teams.',
     tags: ['ai tools', 'caption wizard ai', 'industry'],
     readingTime: '8 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Futuristic interface showcasing AI workflow improvements',
     content: [
       {
@@ -180,6 +192,8 @@ export const blogPosts: BlogPost[] = [
       'List updated hashtag groupings and research habits for seasonal reach boosts.',
     tags: ['hashtags', 'instagram', 'optimization'],
     readingTime: '4 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Stylized hashtag icons with seasonal palette',
     content: [
       {
@@ -219,6 +233,8 @@ export const blogPosts: BlogPost[] = [
       'Draft a weekly content calendar outline tailored to the fall season with prompt ideas.',
     tags: ['seasonal content', 'calendar', 'planning'],
     readingTime: '9 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Calendar illustration with autumn color palette',
     content: [
       {
@@ -258,6 +274,8 @@ export const blogPosts: BlogPost[] = [
       'Highlight repeatable caption frameworks for Reels that encourage swipes and saves.',
     tags: ['reels', 'frameworks', 'experiments'],
     readingTime: '6 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Dynamic collage of reel interface elements',
     content: [
       {
@@ -296,6 +314,8 @@ export const blogPosts: BlogPost[] = [
       'Outline a messaging mix for Black Friday, Cyber Monday, and festive season storytelling.',
     tags: ['holiday marketing', 'campaigns', 'copywriting'],
     readingTime: '7 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Festive illustration with gift boxes and lights',
     content: [
       {
@@ -335,6 +355,8 @@ export const blogPosts: BlogPost[] = [
       'Document algorithm shifts and how they influenced caption pacing and calls to action.',
     tags: ['algorithm updates', 'instagram', 'notes'],
     readingTime: '5 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Abstract network pattern symbolizing algorithm changes',
     content: [
       {
@@ -373,6 +395,8 @@ export const blogPosts: BlogPost[] = [
       'Map out how high-performing captions were remixed across channels to extend reach.',
     tags: ['repurposing', 'workflow', 'social strategy'],
     readingTime: '10 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Storyboard layout showing content repurposing flows',
     content: [
       {
@@ -412,6 +436,8 @@ export const blogPosts: BlogPost[] = [
       'List emerging caption styles creators planned to lean on heading into 2025.',
     tags: ['predictions', '2025', 'creators'],
     readingTime: '6 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Crystal ball illustration symbolizing future trends',
     content: [
       {
@@ -450,6 +476,8 @@ export const blogPosts: BlogPost[] = [
       'Provide a checklist for automating research, drafting, and approval loops.',
     tags: ['automation', 'workflow', 'checklist'],
     readingTime: '7 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Productivity dashboard mockup with checkmarks',
     content: [
       {
@@ -489,6 +517,8 @@ export const blogPosts: BlogPost[] = [
       'Outline caption templates for story series, polls, and Q&A sessions.',
     tags: ['story templates', 'instagram stories', 'march 2025'],
     readingTime: '5 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Story interface mockup with template callouts',
     content: [
       {
@@ -528,6 +558,8 @@ export const blogPosts: BlogPost[] = [
       'Explain conversation prompts that drove comments for community-minded brands.',
     tags: ['engagement', 'prompts', 'community'],
     readingTime: '6 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Comment bubble icons with gradient background',
     content: [
       {
@@ -567,6 +599,8 @@ export const blogPosts: BlogPost[] = [
       'Summarize performance benchmarks for captions across industries entering Q2 2025.',
     tags: ['benchmarks', 'q2 2025', 'insights'],
     readingTime: '8 min read',
+    author: DEFAULT_AUTHOR,
+    heroImage: DEFAULT_HERO_IMAGE,
     heroImageAlt: 'Analytics dashboard with line graphs and metrics',
     content: [
       {

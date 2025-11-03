@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -9,6 +10,8 @@ type BlogPostPageProps = {
     slug: string
   }>
 }
+
+const SITE_URL = 'https://captionwizard.pro'
 
 const formatDate = (input: string) =>
   new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(new Date(input))
@@ -27,23 +30,35 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     return {}
   }
 
+  const imageUrl = new URL(currentPost.heroImage, SITE_URL).toString()
+
   return {
     title: `${currentPost.title} — Caption Wizard AI Blog`,
     description: currentPost.shortDescription,
     alternates: {
       canonical: `/blog/${currentPost.slug}`,
     },
+    authors: [{ name: currentPost.author }],
     openGraph: {
       title: `${currentPost.title} — Caption Wizard AI Blog`,
       description: currentPost.shortDescription,
       url: `https://captionwizard.pro/blog/${currentPost.slug}`,
       type: 'article',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: currentPost.heroImageAlt,
+        },
+      ],
       tags: currentPost.tags,
     },
     twitter: {
       card: 'summary_large_image',
       title: currentPost.title,
       description: currentPost.shortDescription,
+      images: [imageUrl],
     },
   }
 }
@@ -55,6 +70,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!post) {
     notFound()
   }
+
+  const heroImageUrl = new URL(post.heroImage, SITE_URL).toString()
 
   const articleBody = post.content
     .flatMap((section) => [
@@ -74,6 +91,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     url: `https://captionwizard.pro/blog/${post.slug}`,
     keywords: post.tags.join(', '),
     articleSection: post.category,
+    author: {
+      '@type': 'Organization',
+      name: post.author,
+    },
+    image: heroImageUrl,
     articleBody,
     publisher: {
       '@type': 'Organization',
@@ -119,15 +141,29 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </header>
 
-        {/* <section
-          className="rounded-3xl border border-indigo-200/60 bg-gradient-to-br from-indigo-50 via-white to-indigo-100 p-8 dark:border-indigo-400/30 dark:from-indigo-950/40 dark:via-slate-950 dark:to-indigo-900/40"
-          aria-label={post.heroImageAlt ?? post.title}
-        >
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-indigo-500">
-            Overview
-          </p>
-          <p className="mt-4 text-lg text-[var(--foreground-primary)]">{post.shortDescription}</p>
-        </section> */}
+        <section className="space-y-6">
+          <figure className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] shadow-sm">
+            <div className="relative aspect-[16/9] w-full">
+              <Image
+                src={post.heroImage}
+                alt={post.heroImageAlt}
+                fill
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+                priority
+              />
+            </div>
+            <figcaption className="px-6 py-4 text-xs uppercase tracking-[0.3em] text-muted">
+              {post.heroImageAlt}
+            </figcaption>
+          </figure>
+          <div className="rounded-3xl border border-indigo-200/60 bg-gradient-to-br from-indigo-50 via-white to-indigo-100 p-8 dark:border-indigo-400/30 dark:from-indigo-950/40 dark:via-slate-950 dark:to-indigo-900/40">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-indigo-500">
+              Overview
+            </p>
+            <p className="mt-4 text-lg text-[var(--foreground-primary)]">{post.shortDescription}</p>
+          </div>
+        </section>
 
         <div className="space-y-12">
           {post.content.map((section, index) => (
@@ -154,10 +190,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </ul>
               )}
               {index === 1 && (
-                <div className="mt-6 rounded-2xl border border-dashed border-indigo-200/60 bg-indigo-50/30 p-4 dark:border-indigo-400/30 dark:bg-indigo-950/20">
-                  {/* <p className="mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-indigo-500">
+                <div className="mt-6 space-y-3 rounded-2xl border border-dashed border-indigo-200/60 bg-indigo-50/30 p-4 dark:border-indigo-400/30 dark:bg-indigo-950/20">
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-[0.35em] text-indigo-500">
                     Sponsored Placement
-                  </p> */}
+                  </p>
                   <AdSlot slotId="blog-inline-001" className="h-52 w-full" />
                 </div>
               )}
