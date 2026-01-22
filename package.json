@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint . --max-warnings=0"
   },
   "dependencies": {
     "@huggingface/inference": "^3.8.2",
@@ -15,7 +15,7 @@
     "chart.js": "^4.4.9",
     "framer-motion": "^12.9.2",
     "logsnag": "^1.0.0",
-    "next": "15.3.1",
+    "next": "^16.1.4",
     "openai": "^4.95.1",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
@@ -29,7 +29,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.3.1",
+    "eslint-config-next": "^16.1.4",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4",
     "typescript": "^5"

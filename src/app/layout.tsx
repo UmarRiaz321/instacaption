@@ -80,13 +80,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             />
           </>
         )}
-        <ThemeScript />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      </head>
-      <body className="min-h-screen bg-[var(--background-primary)] text-[var(--foreground-primary)] antialiased transition-colors duration-300">
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-C897NRVZ36"
           strategy="afterInteractive"
@@ -99,6 +92,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'G-C897NRVZ36');
           `}
         </Script>
+        <ThemeScript />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </head>
+      <body className="min-h-screen bg-[var(--background-primary)] text-[var(--foreground-primary)] antialiased transition-colors duration-300">
         <ThemeProvider>
           <UserProvider>
             <div className="relative flex min-h-screen flex-col overflow-hidden">

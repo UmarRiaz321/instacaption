@@ -6,7 +6,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co https://api.openrouter.ai https://api.logsnag.com https://api.stripe.com https://stats.g.doubleclick.net",
+  "connect-src 'self' https://*.supabase.co https://api.openrouter.ai https://api.logsnag.com https://api.stripe.com https://stats.g.doubleclick.net https://www.google-analytics.com https://www.googletagmanager.com",
   "frame-src https://js.stripe.com https://hooks.stripe.com",
   "media-src 'self' https:",
   "object-src 'none'",
