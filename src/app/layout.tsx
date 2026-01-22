@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
+import Script from "next/script";
 import { UserProvider } from '@/context/UserContext'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import AdSlot from '@/components/AdSlot'
 import { ThemeProvider } from '@/context/ThemeContext'
 import ThemeScript from '@/components/ThemeScript'
+import { featureFlags } from '@/lib/featureFlags'
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -68,12 +70,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="light" suppressHydrationWarning>
       <head>
-        <meta name="google-adsense-account" content="ca-pub-2318193865626108"></meta>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2318193865626108"
-          crossOrigin="anonymous"
-        />
+        {featureFlags.ads && (
+          <>
+            <meta name="google-adsense-account" content="ca-pub-2318193865626108" />
+            <script
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2318193865626108"
+              crossOrigin="anonymous"
+            />
+          </>
+        )}
         <ThemeScript />
         <script
           type="application/ld+json"
@@ -81,6 +87,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen bg-[var(--background-primary)] text-[var(--foreground-primary)] antialiased transition-colors duration-300">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-C897NRVZ36"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-C897NRVZ36');
+          `}
+        </Script>
         <ThemeProvider>
           <UserProvider>
             <div className="relative flex min-h-screen flex-col overflow-hidden">
@@ -97,19 +115,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </a>
               <Header />
               <div className="flex flex-1 flex-col lg:flex-row">
-                <aside className="hidden w-64 shrink-0 lg:block">
-                  <div className="sticky top-24 px-4">
-                    <AdSlot placement="sidebar-left" className="h-[600px] w-[160px]" />
-                  </div>
-                </aside>
+                {featureFlags.ads && (
+                  <aside className="hidden w-64 shrink-0 lg:block">
+                    <div className="sticky top-24 px-4">
+                      <AdSlot placement="sidebar-left" className="h-[600px] w-[160px]" />
+                    </div>
+                  </aside>
+                )}
                 <main className="flex-1 overflow-x-hidden">
                   {children}
                 </main>
-                <aside className="hidden w-64 shrink-0 lg:block">
-                  <div className="sticky top-24 px-4">
-                    <AdSlot placement="sidebar-right" className="h-[600px] w-[160px]" />
-                  </div>
-                </aside>
+                {featureFlags.ads && (
+                  <aside className="hidden w-64 shrink-0 lg:block">
+                    <div className="sticky top-24 px-4">
+                      <AdSlot placement="sidebar-right" className="h-[600px] w-[160px]" />
+                    </div>
+                  </aside>
+                )}
               </div>
               <Footer />
             </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import AdSlot from '@/components/AdSlot'
 import { blogPosts } from '@/data/blogPosts'
+import AdSlot from '@/components/AdSlot'
+import { featureFlags } from '@/lib/featureFlags'
 
 const SITE_URL = 'https://captionwizard.pro'
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`
@@ -135,25 +136,27 @@ export default function BlogPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-[var(--foreground-primary)]">Sidebar Inventory</h2>
-              <p className="text-sm text-muted">
-                Drop campaign recaps, gated lead magnets, or additional ad inventory next to the blog
-                catalogue. The slot is responsive and inherits dark mode styles.
-              </p>
-              <ul className="list-inside list-disc text-sm text-muted">
-                <li>Replace slot IDs with live AdSense identifiers</li>
-                <li>Swap copy for newsletter CTAs or promo banners</li>
-                <li>Link to your top converting generator prompts</li>
-              </ul>
-            </div>
-            <div className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/40 p-4 dark:border-indigo-400/40 dark:bg-indigo-950/30">
-              <AdSlot placement="blog-sidebar" className="h-96 w-full" />
+        {featureFlags.ads && (
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-[var(--foreground-primary)]">Sidebar Inventory</h2>
+                <p className="text-sm text-muted">
+                  Drop campaign recaps, gated lead magnets, or additional ad inventory next to the blog
+                  catalogue. The slot is responsive and inherits dark mode styles.
+                </p>
+                <ul className="list-inside list-disc text-sm text-muted">
+                  <li>Replace slot IDs with live AdSense identifiers</li>
+                  <li>Swap copy for newsletter CTAs or promo banners</li>
+                  <li>Link to your top converting generator prompts</li>
+                </ul>
+              </div>
+              <div className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/40 p-4 dark:border-indigo-400/40 dark:bg-indigo-950/30">
+                <AdSlot placement="blog-sidebar" className="h-96 w-full" />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

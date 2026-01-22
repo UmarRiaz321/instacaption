@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo } from 'react'
+import { featureFlags } from '@/lib/featureFlags'
 
 declare global {
   interface Window {
@@ -36,7 +37,7 @@ export default function AdSlot({ slotId, placement, className = '' }: AdSlotProp
   }, [placement, slotId])
 
   useEffect(() => {
-    if (!resolvedSlotId) {
+    if (!featureFlags.ads || !resolvedSlotId) {
       return
     }
     try {
@@ -48,6 +49,10 @@ export default function AdSlot({ slotId, placement, className = '' }: AdSlotProp
       console.error('Ad error:', e)
     }
   }, [resolvedSlotId])
+
+  if (!featureFlags.ads) {
+    return null
+  }
 
   if (!resolvedSlotId) {
     if (process.env.NODE_ENV === 'development') {

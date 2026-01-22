@@ -2,8 +2,9 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import AdSlot from '@/components/AdSlot'
 import { blogPosts } from '@/data/blogPosts'
+import AdSlot from '@/components/AdSlot'
+import { featureFlags } from '@/lib/featureFlags'
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -189,7 +190,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   ))}
                 </ul>
               )}
-              {index === 1 && (
+              {featureFlags.ads && index === 1 && (
                 <div className="mt-6 rounded-xl border border-dashed border-indigo-200 bg-indigo-50/40 p-4 dark:border-indigo-400/40 dark:bg-indigo-950/30">
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-500">
                     Sponsored Placement
