@@ -86,33 +86,37 @@ export default function Home() {
   }
 
   return (
-    <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pb-24 pt-10 lg:px-6">
-      <section id="generator" className="console-frame rounded-[36px] p-5 sm:p-6 lg:p-8">
+    <div className="relative flex w-full flex-col pb-24">
+      <section
+        id="generator"
+        aria-labelledby="generator-heading"
+        className="relative isolate min-h-[calc(100vh-4.5rem)] overflow-hidden border-y border-[var(--border-subtle)] bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_24%),radial-gradient(circle_at_85%_12%,rgba(59,130,246,0.16),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.98),rgba(242,248,255,0.96))] dark:bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_22%),radial-gradient(circle_at_85%_12%,rgba(56,189,248,0.12),transparent_20%),linear-gradient(180deg,rgba(3,15,30,0.96),rgba(7,24,48,0.94))]"
+      >
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.7),transparent)]"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -right-10 top-12 h-40 w-40 rounded-full bg-sky-300/20 blur-3xl dark:bg-cyan-400/10"
+          className="pointer-events-none absolute -right-16 top-12 h-52 w-52 rounded-full bg-sky-300/24 blur-3xl dark:bg-cyan-400/10"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -left-12 bottom-8 h-32 w-32 rounded-full bg-blue-400/10 blur-3xl dark:bg-sky-400/10"
+          className="pointer-events-none absolute -left-16 bottom-0 h-48 w-48 rounded-full bg-blue-300/14 blur-3xl dark:bg-sky-400/10"
           aria-hidden="true"
         />
 
-        <div className="relative mx-auto max-w-4xl space-y-6">
-          <div className="flex flex-col gap-4 border-b border-[var(--border-subtle)] pb-5 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-2xl space-y-3">
+        <div className="relative mx-auto flex w-full max-w-[1400px] flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
+          <div className="grid gap-6 border-b border-[var(--border-subtle)] pb-8 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
+            <div className="max-w-3xl space-y-3">
               <p className="tech-label">AI Caption Generator</p>
-              <h1 className="text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl">
+              <h1 id="generator-heading" className="text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-5xl">
                 Generate captions for Instagram, TikTok, and Reels
               </h1>
-              <p className="text-base leading-7 text-muted sm:text-lg">
-                Describe the post in plain language, pick a vibe, and get ready-to-post captions with matching hashtags in the same workspace.
+              <p id="generator-summary" className="max-w-2xl text-base leading-7 text-muted sm:text-lg">
+                Describe the post in plain language, pick a vibe, and get ready-to-post captions with matching hashtags in one clean workflow.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 lg:max-w-sm lg:justify-end">
+            <div className="flex flex-wrap gap-2 xl:max-w-md xl:justify-end">
               <span className="glass-pill rounded-full px-3 py-1.5 text-xs font-medium text-muted">
                 No prompt syntax
               </span>
@@ -125,86 +129,71 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,250,255,0.99))] p-5 shadow-[0_40px_90px_-68px_rgba(14,165,233,0.32)] backdrop-blur-xl dark:border-sky-400/10 dark:bg-[linear-gradient(180deg,rgba(4,18,36,0.78),rgba(7,24,48,0.9))] lg:p-6">
-            <div className="flex flex-col gap-3 border-b border-[var(--border-subtle)] pb-5 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <p className="tech-label">Main Generator</p>
-                <h2 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-foreground sm:text-2xl">
-                  Small input. One-tap style picker. Results in view.
-                </h2>
-                <p className="mt-2 text-sm leading-6 text-muted">
-                  Write one or two lines, generate, and copy the caption you want to post.
-                </p>
-              </div>
-              <span className="glass-pill rounded-full px-3 py-1.5 text-xs font-medium text-muted">
-                One screen workflow
-              </span>
-            </div>
+          <div className="w-full max-w-5xl space-y-7">
+            <PromptEditor
+              description={description}
+              onChange={setDescription}
+              onKeyDown={handlePromptKeyDown}
+              quickPrompts={quickPrompts}
+              characterCount={characterCount}
+              wordCount={wordCount}
+              maxCharacters={MAX_DESCRIPTION_LENGTH}
+              isOverLimit={isOverCharacterLimit}
+            />
 
-            <div className="mt-6 space-y-6">
-              <PromptEditor
-                description={description}
-                onChange={setDescription}
-                onKeyDown={handlePromptKeyDown}
-                quickPrompts={quickPrompts}
-                characterCount={characterCount}
-                wordCount={wordCount}
-                maxCharacters={MAX_DESCRIPTION_LENGTH}
-                isOverLimit={isOverCharacterLimit}
-              />
+            <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.26),transparent)]" />
 
-              <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.28),transparent)]" />
+            <VibeSelector groups={vibeGroups} selected={tone} onSelect={setTone} />
 
-              <VibeSelector groups={vibeGroups} selected={tone} onSelect={setTone} />
+            <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.26),transparent)]" />
 
-              <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.28),transparent)]" />
+            <ActionBar
+              primaryLabel={loading ? 'Writing captions...' : 'Generate captions'}
+              secondaryLabel="Start over"
+              onPrimary={handleGenerate}
+              onSecondary={handleReset}
+              disablePrimary={loading || !canGenerate}
+              disableSecondary={loading || !canReset}
+              usageMessage={usageMessage}
+              error={error}
+            />
 
-              <ActionBar
-                primaryLabel={loading ? 'Writing captions...' : 'Generate captions'}
-                secondaryLabel="Start over"
-                onPrimary={handleGenerate}
-                onSecondary={handleReset}
-                disablePrimary={loading || !canGenerate}
-                disableSecondary={loading || !canReset}
-                usageMessage={usageMessage}
-                error={error}
-              />
+            <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.18),transparent)]" />
 
-              <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.18),transparent)]" />
-
-              <ResultsPanel
-                captions={captions}
-                copiedTarget={copiedTarget}
-                loading={loading}
-                onCopy={handleCopy}
-                onCopyAll={handleCopyAll}
-              />
-            </div>
+            <ResultsPanel
+              captions={captions}
+              copiedTarget={copiedTarget}
+              loading={loading}
+              onCopy={handleCopy}
+              onCopyAll={handleCopyAll}
+            />
           </div>
         </div>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <InspirationLab
-          cards={inspirationDeck}
-          onApply={handleApplyInspiration}
-          onToneSelect={setTone}
-          onPromptLoad={setDescription}
-        />
-        <WorkflowTips />
-      </section>
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pt-10 lg:px-6">
+        <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+          <InspirationLab
+            cards={inspirationDeck}
+            onApply={handleApplyInspiration}
+            onToneSelect={setTone}
+            onPromptLoad={setDescription}
+          />
+          <WorkflowTips />
+        </section>
 
-      <section id="faq" className="glass-card rounded-[32px] p-8 transition-colors">
-        <h2 className="text-2xl font-semibold text-foreground">Frequently asked questions</h2>
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          {creatorFAQs.map((item) => (
-            <article key={item.question} className="glass-card rounded-2xl p-4 transition hover:-translate-y-1">
-              <h3 className="text-lg font-semibold text-foreground">{item.question}</h3>
-              <p className="mt-2 text-sm text-muted">{item.answer}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        <section id="faq" className="glass-card rounded-[32px] p-8 transition-colors">
+          <h2 className="text-2xl font-semibold text-foreground">Frequently asked questions</h2>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            {creatorFAQs.map((item) => (
+              <article key={item.question} className="glass-card rounded-2xl p-4 transition hover:-translate-y-1">
+                <h3 className="text-lg font-semibold text-foreground">{item.question}</h3>
+                <p className="mt-2 text-sm text-muted">{item.answer}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}

@@ -184,11 +184,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <UserProvider>
             <div className="relative flex min-h-screen flex-col overflow-hidden">
               <div
-                className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.24),transparent_32%),radial-gradient(circle_at_85%_10%,rgba(59,130,246,0.22),transparent_28%)] opacity-90 blur-3xl transition-opacity duration-500 dark:bg-[radial-gradient(circle_at_10%_0%,rgba(34,211,238,0.18),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(56,189,248,0.14),transparent_26%)]"
+                className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.2),transparent_32%),radial-gradient(circle_at_85%_10%,rgba(59,130,246,0.16),transparent_28%),radial-gradient(circle_at_50%_100%,rgba(255,255,255,0.72),transparent_42%)] opacity-100 blur-3xl transition-opacity duration-500 dark:bg-[radial-gradient(circle_at_10%_0%,rgba(34,211,238,0.18),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(56,189,248,0.14),transparent_26%)]"
                 aria-hidden="true"
               />
               <div
-                className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.65)_0%,rgba(233,244,255,0.16)_40%,rgba(3,7,18,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(7,18,35,0.7)_0%,rgba(2,8,23,0.2)_40%,rgba(2,8,23,0)_100%)]"
+                className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.94)_0%,rgba(242,248,255,0.74)_32%,rgba(245,250,255,0.24)_100%)] dark:bg-[linear-gradient(180deg,rgba(7,18,35,0.7)_0%,rgba(2,8,23,0.2)_40%,rgba(2,8,23,0)_100%)]"
                 aria-hidden="true"
               />
               <a href="#generator" className="skip-link">

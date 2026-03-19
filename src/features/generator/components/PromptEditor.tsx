@@ -27,21 +27,28 @@ export function PromptEditor({
   const visiblePrompts = quickPrompts.slice(0, 3)
 
   return (
-    <section className="space-y-3">
+    <section className="space-y-4" aria-labelledby="description-heading">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="tech-label">01 / Input</p>
-          <label htmlFor="description" className="mt-3 block text-lg font-semibold text-foreground">
+          <label
+            id="description-heading"
+            htmlFor="description"
+            className="mt-3 block text-lg font-semibold text-foreground"
+          >
             Describe the post
           </label>
-          <p className="mt-1 text-sm text-muted">Write the setting, subject, and mood in one or two lines.</p>
+          <p id="description-help" className="mt-1 text-sm leading-6 text-muted">
+            Write the setting, subject, and mood in one or two lines.
+          </p>
         </div>
-        <span className="text-xs font-medium text-muted">Shortcut: ⌘⏎ / Ctrl⏎</span>
+        <span className="text-xs font-medium text-muted">Shortcut: Cmd+Enter / Ctrl+Enter</span>
       </div>
       <textarea
         id="description"
         rows={3}
-        className="min-h-[118px] w-full resize-none rounded-[24px] border border-[var(--border-subtle)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,250,255,1))] px-4 py-3 text-base leading-7 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.96)] outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-300/20 dark:bg-[linear-gradient(180deg,rgba(6,18,35,0.75),rgba(9,25,48,0.92))]"
+        aria-describedby="description-help description-limit"
+        className="min-h-[112px] w-full resize-none rounded-[26px] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.92)] px-4 py-3 text-base leading-7 text-foreground shadow-[0_24px_60px_-48px_rgba(14,116,144,0.42)] outline-none transition placeholder:text-slate-500 focus:border-sky-400 focus:ring-4 focus:ring-sky-300/20 dark:bg-[linear-gradient(180deg,rgba(6,18,35,0.75),rgba(9,25,48,0.92))] dark:placeholder:text-slate-400"
         placeholder="Example: Late-night product launch photo with the team celebrating around the screen."
         value={description}
         onChange={(event) => onChange(event.target.value)}
@@ -78,7 +85,7 @@ export function PromptEditor({
           <span className="text-foreground">1-2 lines</span>
         </div>
       </div>
-      <p className={`text-xs leading-6 ${isOverLimit ? 'text-rose-500' : 'text-muted'}`}>
+      <p id="description-limit" className={`text-xs leading-6 ${isOverLimit ? 'text-rose-500' : 'text-muted'}`}>
         {isOverLimit
           ? `Trim ${characterCount - maxCharacters} characters to keep the request clear.`
           : 'Keep it simple: setting, subject, and mood usually give the best results.'}
