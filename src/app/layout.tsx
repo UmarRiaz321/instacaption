@@ -21,58 +21,125 @@ const monoFont = IBM_Plex_Mono({
   variable: '--font-mono',
 })
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Caption Wizard AI',
-  url: 'https://captionwizard.pro',
-  description: 'Simple AI caption generator for Instagram, TikTok, and Reels.',
-  publisher: {
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Caption Wizard AI',
+    url: 'https://captionwizard.pro',
+    logo: 'https://captionwizard.pro/og-image.png',
   },
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: 'https://captionwizard.pro/?q={search_term_string}',
-    'query-input': 'required name=search_term_string',
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Caption Wizard AI',
+    url: 'https://captionwizard.pro',
+    applicationCategory: 'ProductivityApplication',
+    operatingSystem: 'Web',
+    description:
+      'AI caption generator for Instagram, TikTok, Reels, Shorts, and social media posts.',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    featureList: [
+      'AI caption generator',
+      'Instagram caption ideas',
+      'TikTok caption ideas',
+      'Reels caption writer',
+      'Hashtag generation',
+      'Tone and style selection',
+    ],
+    publisher: {
+      '@type': 'Organization',
+      name: 'Caption Wizard AI',
+    },
   },
-} as const
+] as const
 
 export const metadata: Metadata = {
-  title: 'Caption Wizard AI — Free AI Instagram Caption Generator',
-  description: 'Describe a post, choose a style, and get caption options with hashtags in seconds.',
+  title: 'AI Caption Generator for Instagram, TikTok & Reels | Caption Wizard AI',
+  description:
+    'Free AI caption generator for Instagram, TikTok, Reels, and social media posts. Generate caption ideas, hooks, and hashtags in seconds.',
   keywords: [
+    'ai caption generator',
     'Instagram caption generator',
+    'TikTok caption generator',
+    'Reels caption generator',
+    'social media caption generator',
     'AI caption maker',
-    'social media captions',
+    'caption writer',
+    'caption ideas',
+    'Instagram caption ideas',
     'TikTok caption ideas',
+    'Reels caption ideas',
+    'hashtag generator',
+    'social media captions',
     'free caption tool',
-    'AI writing assistant',
-    'viral captions',
+    'AI writing tool',
   ],
+  applicationName: 'Caption Wizard AI',
+  category: 'technology',
+  creator: 'Caption Wizard AI',
+  publisher: 'Caption Wizard AI',
+  referrer: 'origin-when-cross-origin',
+  manifest: '/manifest.webmanifest',
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/newlogo.svg', type: 'image/svg+xml' },
+    ],
+    apple: [{ url: '/logo-light.png', sizes: '1024x1024', type: 'image/png' }],
+    shortcut: ['/favicon.ico'],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Caption Wizard AI',
+  },
+  formatDetection: {
+    address: false,
+    email: false,
+    telephone: false,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   metadataBase: new URL('https://captionwizard.pro'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Caption Wizard AI — Free AI Caption Generator',
-    description: 'Describe the post, choose a style, and get caption options with hashtags in seconds.',
+    title: 'AI Caption Generator for Instagram, TikTok & Reels | Caption Wizard AI',
+    description:
+      'Generate social media captions, hooks, and hashtags for Instagram, TikTok, Reels, and Shorts.',
     url: 'https://captionwizard.pro',
     siteName: 'Caption Wizard AI',
+    locale: 'en_US',
     images: [
       {
         url: 'https://captionwizard.pro/og-image.png',
         width: 1200,
-        height: 630,
-        alt: 'Caption Wizard AI preview',
+        height: 626,
+        alt: 'Caption Wizard AI caption generator preview',
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Caption Wizard AI — Free AI Caption Generator',
-    description: 'Describe the post, choose a style, and get caption options with hashtags in seconds.',
+    title: 'AI Caption Generator for Instagram, TikTok & Reels',
+    description:
+      'Generate caption ideas, hooks, and hashtags for Instagram, TikTok, Reels, and social posts.',
     images: ['https://captionwizard.pro/og-image.png'],
     creator: '@umarriaz56',
   },

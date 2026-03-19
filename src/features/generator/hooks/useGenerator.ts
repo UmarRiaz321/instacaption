@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { track } from '@/lib/logsnag'
-import type { HighlightStat, InspirationCard, VibeGroup } from '../types'
+import type { InspirationCard, VibeGroup } from '../types'
 import { INSPIRATION_DECK, MAX_DESCRIPTION_LENGTH, QUICK_PROMPTS, VIBE_GROUPS } from '../constants'
 
 const USAGE_STORAGE_KEY = 'captionwizard_usage'
@@ -280,15 +280,6 @@ export function useGenerator(email: string | null) {
     }
   }, [])
 
-  const highlightStats: HighlightStat[] = useMemo(
-    () => [
-      { label: 'Caption options', value: '3' },
-      { label: 'Runs left this hour', value: `${Math.max(remainingRuns, 0)}` },
-      { label: 'Best input length', value: '1-2 lines' },
-    ],
-    [remainingRuns],
-  )
-
   const usageMessage = isRateLimited
     ? `Free limit reached. Try again in ${formatRemainingTime(timeUntilReset)}.`
     : `No sign-up required. ${Math.max(remainingRuns, 0)} free ${
@@ -313,7 +304,6 @@ export function useGenerator(email: string | null) {
       canGenerate,
       canReset,
       usageMessage,
-      highlightStats,
       quickPrompts,
       inspirationDeck,
       vibeGroups,

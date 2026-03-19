@@ -22,15 +22,14 @@ export function ActionBar({
   error,
 }: ActionBarProps) {
   return (
-    <section className="space-y-4">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="tech-label">03 / Generate</p>
-          <p className="mt-3 text-lg font-semibold text-foreground">Create the caption set</p>
-        </div>
+    <section className="space-y-3">
+      <div>
+        <p className="tech-label">03 / Generate</p>
+        <p className="mt-3 text-lg font-semibold text-foreground">Generate the captions</p>
+        <p className="mt-1 text-sm text-muted">The results will appear directly below in this widget.</p>
       </div>
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <button type="button" onClick={onPrimary} disabled={disablePrimary} className="button-primary min-w-[12rem]">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+        <button type="button" onClick={onPrimary} disabled={disablePrimary} className="button-primary min-w-[13rem]">
           {primaryLabel}
         </button>
         <button
@@ -41,10 +40,8 @@ export function ActionBar({
         >
           {secondaryLabel}
         </button>
+        <p className="text-xs font-medium leading-6 text-muted lg:ml-auto">{usageMessage}</p>
       </div>
-      <p className="glass-pill inline-flex w-fit rounded-full px-3 py-1.5 text-xs font-medium text-muted">
-        {usageMessage}
-      </p>
       {error && <p className="text-sm text-rose-500 dark:text-rose-300">{error}</p>}
     </section>
   )

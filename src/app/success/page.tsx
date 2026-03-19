@@ -4,6 +4,10 @@ import SuccessContent from './SuccessContent'
 export const metadata = {
   title: 'Success – Caption Wizard AI',
   description: 'Thanks for your upgrade! You’re now a premium user.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function SuccessPage() {
