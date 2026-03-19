@@ -1,7 +1,28 @@
 import { NextResponse } from 'next/server'
 
+function acceptedResponse(success = false) {
+  return NextResponse.json({ success }, { status: 202 })
+}
+
 export async function POST(req: Request) {
-  const { event, properties } = await req.json()
+  let payload: { event?: unknown; properties?: Record<string, unknown> }
+
+  try {
+    payload = await req.json()
+  } catch {
+    return NextResponse.json({ message: 'Invalid JSON body' }, { status: 400 })
+  }
+
+  const event = typeof payload.event === 'string' ? payload.event.trim() : ''
+  const properties = payload.properties && typeof payload.properties === 'object' ? payload.properties : {}
+
+  if (!event) {
+    return NextResponse.json({ message: 'Event is required' }, { status: 400 })
+  }
+
+  if (!process.env.LOGSNAG_API_KEY) {
+    return acceptedResponse()
+  }
 
   try {
     const res = await fetch('https://api.logsnag.com/v1/log', {
@@ -11,24 +32,24 @@ export async function POST(req: Request) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        project: 'captionwizard',  // Your LogSnag project name
-        channel: 'usage',          // or whatever you setup
+        project: 'captionwizard',
+        channel: 'usage',
         event,
-        description: properties.description || '',
-        icon: properties.icon || '✨',
-        notify: properties.notify ?? false,
-        tags: properties.tags || {},
+        description: typeof properties.description === 'string' ? properties.description : '',
+        icon: typeof properties.icon === 'string' ? properties.icon : '✨',
+        notify: typeof properties.notify === 'boolean' ? properties.notify : false,
+        tags: properties.tags && typeof properties.tags === 'object' ? properties.tags : {},
       }),
     })
 
     if (!res.ok) {
       console.error('LogSnag Error:', await res.text())
-      return NextResponse.json({ success: false }, { status: 500 })
+      return acceptedResponse()
     }
 
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('LogSnag Unexpected Error:', err)
-    return NextResponse.json({ success: false }, { status: 500 })
+    return acceptedResponse()
   }
 }

@@ -1,15 +1,18 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-console.log('🔑 Stripe key available?', !!process.env.STRIPE_SECRET_KEY)
 
-// ✅ Initialize Stripe with your live secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2022-11-15',
-})
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2022-11-15',
+    })
+  : null
 
 export async function POST() {
+  if (!stripe) {
+    return NextResponse.json({ message: 'Checkout is not configured.' }, { status: 503 })
+  }
+
   try {
-    // ✅ Create the Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
@@ -38,9 +41,8 @@ export async function POST() {
       console.error('❌ Stripe checkout session error:', err.message)
       return NextResponse.json({ message: err.message }, { status: 500 })
     }
-  
+
     console.error('❌ Unknown error during checkout:', err)
     return NextResponse.json({ message: 'Checkout session failed' }, { status: 500 })
   }
-  
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import type { KeyboardEvent } from 'react'
-import { useMemo } from 'react'
 import { useUser } from '@/context/UserContext'
 import { useGenerator } from '@/features/generator/hooks/useGenerator'
 import { ActionBar } from '@/features/generator/components/ActionBar'
@@ -15,24 +14,24 @@ import { MAX_DESCRIPTION_LENGTH } from '@/features/generator/constants'
 
 const creatorFAQs = [
   {
-    question: 'How futuristic is this caption AI?',
+    question: 'Do I need to know prompting?',
     answer:
-      'It blends storytelling, trending audio hooks, and SEO keywords to deliver captions your audience saves. Expect emoji-aware copy and CTA variations.',
+      'No. Write a normal description of the post and choose a style. The tool handles the prompt formatting for you.',
   },
   {
-    question: 'Can I mix vibes?',
+    question: 'Can I change the tone without rewriting everything?',
     answer:
-      'Absolutely. Generate with one vibe in mind, then switch tones and regenerate to stack the best lines into one caption.',
+      'Yes. Keep the same description, switch the style, and generate again. It is a quick way to compare different versions.',
   },
   {
     question: 'Is it really free?',
     answer:
-      'Yes. Every vibe is unlocked. We believe in empowering creators and brands without paywalls.',
+      'Yes. The app currently gives you 10 free runs per hour without requiring an account.',
   },
   {
     question: 'Will this work for TikTok or Reels?',
     answer:
-      'Yes. Captions focus on hooks, storytelling, and social SEO—perfect for TikTok, Reels, Shorts, and beyond.',
+      'Yes. The output is short enough to adapt for Instagram, TikTok, Reels, Shorts, and similar social posts.',
   },
 ]
 
@@ -44,13 +43,13 @@ export default function Home() {
       tone,
       captions,
       loading,
-      copiedIndex,
+      copiedTarget,
       error,
       characterCount,
       wordCount,
-      estimatedTokens,
       isOverCharacterLimit,
       canGenerate,
+      canReset,
       usageMessage,
       highlightStats,
       quickPrompts,
@@ -62,8 +61,9 @@ export default function Home() {
       setTone,
       handleGenerate,
       handleCopy,
+      handleCopyAll,
       handleApplyInspiration,
-      handleClearResults,
+      handleReset,
     },
   } = useGenerator(email ?? null)
 
@@ -74,13 +74,11 @@ export default function Home() {
     }
   }
 
-  const heroStats = useMemo(() => highlightStats, [highlightStats])
-
   return (
     <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-24 pt-12 lg:px-6">
       <section id="generator" className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-8">
-          <GeneratorHero stats={heroStats} />
+          <GeneratorHero stats={highlightStats} />
 
           <div className="space-y-6">
             <PromptEditor
@@ -90,7 +88,6 @@ export default function Home() {
               quickPrompts={quickPrompts}
               characterCount={characterCount}
               wordCount={wordCount}
-              estimatedTokens={estimatedTokens}
               maxCharacters={MAX_DESCRIPTION_LENGTH}
               isOverLimit={isOverCharacterLimit}
             />
@@ -98,11 +95,12 @@ export default function Home() {
             <VibeSelector groups={vibeGroups} selected={tone} onSelect={setTone} />
 
             <ActionBar
-              primaryLabel={loading ? 'Summoning new captions…' : 'Generate captions'}
-              secondaryLabel="Clear results"
+              primaryLabel={loading ? 'Writing captions...' : 'Generate captions'}
+              secondaryLabel="Start over"
               onPrimary={handleGenerate}
-              onSecondary={handleClearResults}
+              onSecondary={handleReset}
               disablePrimary={loading || !canGenerate}
+              disableSecondary={loading || !canReset}
               usageMessage={usageMessage}
               error={error}
             />
@@ -122,13 +120,15 @@ export default function Home() {
 
       <ResultsPanel
         captions={captions}
-        copiedIndex={copiedIndex}
+        copiedTarget={copiedTarget}
+        loading={loading}
         onCopy={handleCopy}
+        onCopyAll={handleCopyAll}
         onRegenerate={handleGenerate}
       />
 
       <section id="faq" className="glass-card rounded-3xl p-8 transition-colors">
-        <h2 className="text-2xl font-semibold text-foreground">Creator playbook</h2>
+        <h2 className="text-2xl font-semibold text-foreground">Common questions</h2>
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           {creatorFAQs.map((item) => (
             <article key={item.question} className="glass-card rounded-2xl p-4 transition hover:-translate-y-1">

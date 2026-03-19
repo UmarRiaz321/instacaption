@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Caption Wizard AI
 
-## Getting Started
+Caption Wizard AI is a Next.js app for generating short social captions from a plain-language description. The main product goal is simple: a non-technical user should be able to describe a post, choose a style, and copy a usable caption in a few seconds.
 
-First, run the development server:
+## Local setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Copy the example environment file and fill in the values you need:
+
+```bash
+cp .env.example .env.local
+```
+
+3. Start the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Required environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `OPENROUTER_API_KEY`: required for caption generation.
+- `OPENROUTER_MODEL`: optional model override. Defaults to `deepseek/deepseek-chat`.
+- `LOGSNAG_API_KEY`: optional. If omitted, tracking routes become a no-op instead of breaking the app.
 
-## Learn More
+Most of the other variables in `.env.example` are for optional features already present in the repo such as Stripe, Supabase, ads, and admin routes.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `npm run dev`: start the local development server.
+- `npm run lint`: run ESLint.
+- `npm run build`: create a production build.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Product notes
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The homepage is optimized for a simple three-step workflow: describe, choose a style, copy a result.
+- Draft prompt text and the last selected style are saved in local storage so users do not lose progress on refresh.
+- Telemetry is optional and should never block the main generation flow.

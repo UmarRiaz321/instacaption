@@ -9,6 +9,10 @@ type VibeSelectorProps = {
 export function VibeSelector({ groups, selected, onSelect }: VibeSelectorProps) {
   return (
     <div className="space-y-5" id="vibes">
+      <div className="space-y-1">
+        <h2 className="text-lg font-semibold text-foreground">Choose a style</h2>
+        <p className="text-sm text-muted">Pick the tone you want the caption to sound like.</p>
+      </div>
       {groups.map((group) => (
         <section key={group.title} className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">{group.title}</h2>

@@ -2,10 +2,14 @@ import { NextResponse } from 'next/server'
 import { LogSnag } from 'logsnag'
 import { VIBE_GROUPS } from '@/features/generator/constants'
 
-const logsnag = new LogSnag({
-  token: process.env.LOGSNAG_API_KEY!,
-  project: 'instacaption',
-})
+const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions'
+const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL ?? 'deepseek/deepseek-chat'
+const logsnag = process.env.LOGSNAG_API_KEY
+  ? new LogSnag({
+      token: process.env.LOGSNAG_API_KEY,
+      project: 'instacaption',
+    })
+  : null
 
 const ALLOWED_TONES = new Map(
   VIBE_GROUPS.flatMap((group) => group.vibes.map((vibe) => [vibe.value, vibe]))
@@ -17,28 +21,110 @@ function buildPrompt(description: string, tone: string) {
   const vibe = ALLOWED_TONES.get(tone)
   const hashtagList = vibe?.hashtags?.join(', ') ?? ''
 
-  return `You are a creative social media strategist.
-Write 3 different Instagram captions in a ${tone} tone for the scene:
+  return `You write short social media captions.
+
+Scene:
 """
 ${description}
 """
 
-Instructions:
-- Keep each caption 1–2 lines max.
-- Make each caption distinct in structure, pacing, and imagery.
-- Close every caption with 2-3 relevant, lowercase hashtags. Prioritise: ${hashtagList || 'scene-relevant tags'}.
-- Do not repeat hashtags across captions.
-- Do not include hashtags in the body copy—only at the end.
-- Return the captions as a simple numbered list (1., 2., 3.).
-`
+Tone: ${tone}
+
+Return JSON only in this exact format:
+{"captions":["caption 1","caption 2","caption 3"]}
+
+Rules:
+- Write exactly 3 captions.
+- Keep each caption concise and ready to post.
+- End every caption with 2-3 relevant, lowercase hashtags.
+- Prefer these hashtags when they fit: ${hashtagList || 'scene-relevant hashtags'}.
+- Make each caption clearly different in structure and wording.
+- Do not add numbering, markdown, or commentary outside the JSON.`
+}
+
+function cleanCaption(value: string) {
+  return value.replace(/^[-•\d.)\s]+/, '').replace(/\s+/g, ' ').trim()
+}
+
+function parseJsonCaptions(raw: string): string[] {
+  const jsonBlock = raw.match(/```(?:json)?\s*([\s\S]*?)```/i)?.[1] ?? raw
+  const parsed = JSON.parse(jsonBlock) as { captions?: unknown } | unknown[]
+
+  if (Array.isArray(parsed)) {
+    return parsed.filter((value): value is string => typeof value === 'string').map(cleanCaption)
+  }
+
+  if (parsed && typeof parsed === 'object' && Array.isArray(parsed.captions)) {
+    return parsed.captions
+      .filter((value): value is string => typeof value === 'string')
+      .map(cleanCaption)
+  }
+
+  return []
+}
+
+function fallbackCaptions(raw: string) {
+  const numberedMatches = Array.from(
+    raw.matchAll(/(?:^|\n)\s*(?:\d+[\).\s-]+|[-*•]\s+)([\s\S]*?)(?=(?:\n\s*(?:\d+[\).\s-]+|[-*•]\s+))|$)/g)
+  )
+    .map((match) => cleanCaption(match[1] ?? ''))
+    .filter(Boolean)
+
+  if (numberedMatches.length > 0) {
+    return numberedMatches
+  }
+
+  return raw
+    .split(/\n{2,}/)
+    .map((block) => cleanCaption(block))
+    .filter(Boolean)
 }
 
 function normaliseCaptions(raw: string) {
-  return raw
-    .split(/\n+/)
-    .map((line) => line.replace(/^[-•\d.]+\s*/, '').trim())
-    .filter(Boolean)
-    .map((caption) => caption.replace(/\s+/g, ' '))
+  const parsedCaptions = (() => {
+    try {
+      return parseJsonCaptions(raw)
+    } catch {
+      return fallbackCaptions(raw)
+    }
+  })()
+
+  const uniqueCaptions: string[] = []
+  const seen = new Set<string>()
+
+  for (const caption of parsedCaptions) {
+    const key = caption.toLowerCase()
+
+    if (!caption || seen.has(key)) {
+      continue
+    }
+
+    seen.add(key)
+    uniqueCaptions.push(caption)
+  }
+
+  return uniqueCaptions
+}
+
+async function trackCaptionGenerated(tone: string, description: string) {
+  if (!logsnag) {
+    return
+  }
+
+  try {
+    await logsnag.track({
+      channel: 'caption',
+      event: 'Caption Generated',
+      icon: '💬',
+      description: `Tone: ${tone}`,
+      tags: {
+        tone,
+        prompt: description.slice(0, 60),
+      },
+    })
+  } catch (error) {
+    console.error('LogSnag tracking failed:', error)
+  }
 }
 
 export async function POST(req: Request) {
@@ -68,34 +154,45 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Tone is invalid or missing' }, { status: 400 })
   }
 
+  if (!process.env.OPENROUTER_API_KEY) {
+    return NextResponse.json(
+      { message: 'Caption generation is not configured. Add OPENROUTER_API_KEY to continue.' },
+      { status: 503 },
+    )
+  }
+
   const prompt = buildPrompt(description, tone)
 
   try {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await fetch(OPENROUTER_API_URL, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'https://captionwizard.pro',
       },
+      signal: AbortSignal.timeout(15_000),
       body: JSON.stringify({
-        model: 'deepseek/deepseek-chat',
+        model: OPENROUTER_MODEL,
         messages: [
           {
             role: 'system',
-            content: 'You are a creative social media expert in writing captions based on user-provided scenes and tones.',
+            content: 'You write concise, high-quality social media captions and strictly follow the requested output format.',
           },
           { role: 'user', content: prompt },
         ],
-        temperature: 0.85,
-        max_tokens: 240,
+        temperature: 0.8,
+        max_tokens: 320,
       }),
     })
 
     if (!response.ok) {
       const body = await response.text()
       console.error('OpenRouter error response', response.status, body)
-      return NextResponse.json({ message: 'Caption provider error' }, { status: 502 })
+      return NextResponse.json(
+        { message: 'The caption provider is temporarily unavailable. Please try again in a moment.' },
+        { status: 502 },
+      )
     }
 
     const data = await response.json()
@@ -103,25 +200,21 @@ export async function POST(req: Request) {
     const captions = normaliseCaptions(content)
 
     if (captions.length === 0) {
-      return NextResponse.json({ message: 'No captions generated' }, { status: 502 })
+      return NextResponse.json(
+        { message: 'We could not format the generated captions. Please try again.' },
+        { status: 502 },
+      )
     }
 
-    const firstThree = Array.from(new Set(captions)).slice(0, 3)
-
-    await logsnag.track({
-      channel: 'caption',
-      event: 'Caption Generated',
-      icon: '💬',
-      description: `Tone: ${tone}`,
-      tags: {
-        tone,
-        prompt: description.slice(0, 60),
-      },
-    })
+    const firstThree = captions.slice(0, 3)
+    await trackCaptionGenerated(tone, description)
 
     return NextResponse.json({ captions: firstThree })
   } catch (err) {
     console.error('OpenRouter error:', err)
-    return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
+    return NextResponse.json(
+      { message: 'The generator timed out. Please try again with a shorter description.' },
+      { status: 500 },
+    )
   }
 }

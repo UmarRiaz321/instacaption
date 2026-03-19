@@ -6,6 +6,7 @@ type ActionBarProps = {
   onPrimary: () => void
   onSecondary: () => void
   disablePrimary: boolean
+  disableSecondary?: boolean
   usageMessage: string
   error?: string | null
 }
@@ -16,16 +17,22 @@ export function ActionBar({
   onPrimary,
   onSecondary,
   disablePrimary,
+  disableSecondary = false,
   usageMessage,
   error,
 }: ActionBarProps) {
   return (
     <div className="space-y-3">
       <div className="flex flex-col gap-3 sm:flex-row">
-        <button onClick={onPrimary} disabled={disablePrimary} className="button-primary">
+        <button type="button" onClick={onPrimary} disabled={disablePrimary} className="button-primary">
           {primaryLabel}
         </button>
-        <button onClick={onSecondary} className="button-secondary">
+        <button
+          type="button"
+          onClick={onSecondary}
+          disabled={disableSecondary}
+          className="button-secondary disabled:cursor-not-allowed disabled:opacity-60"
+        >
           {secondaryLabel}
         </button>
       </div>

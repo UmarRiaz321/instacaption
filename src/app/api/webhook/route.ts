@@ -2,18 +2,28 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2022-11-15',
-})
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2022-11-15',
+    })
+  : null
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+const supabase =
+  process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
+    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+    : null
 
 export async function POST(req: Request) {
+  if (!stripe || !process.env.STRIPE_WEBHOOK_SECRET || !supabase) {
+    return NextResponse.json({ message: 'Webhook handling is not configured.' }, { status: 503 })
+  }
+
   const body = await req.text()
-  const sig = req.headers.get('stripe-signature')!
+  const sig = req.headers.get('stripe-signature')
+
+  if (!sig) {
+    return new NextResponse('Missing stripe-signature header', { status: 400 })
+  }
 
   let event: Stripe.Event
 
@@ -21,14 +31,13 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      process.env.STRIPE_WEBHOOK_SECRET
     )
   } catch (err) {
     console.error('❌ Webhook signature verification failed:', err)
     return new NextResponse(`Webhook Error: ${err}`, { status: 400 })
   }
 
-  // ✅ Successful payment
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
 
@@ -41,8 +50,6 @@ export async function POST(req: Request) {
 
       if (error) {
         console.error('❌ Error saving to Supabase:', error)
-      } else {
-        console.log('✅ Premium email saved to Supabase:', customerEmail)
       }
     }
   }

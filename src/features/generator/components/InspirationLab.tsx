@@ -11,11 +11,11 @@ export function InspirationLab({ cards, onApply, onToneSelect, onPromptLoad }: I
   return (
     <div className="glass-card rounded-3xl p-6 transition-colors">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-foreground">Inspiration lab</h3>
-        <span className="badge-soft">Fresh</span>
+        <h3 className="text-lg font-semibold text-foreground">Start with an example</h3>
+        <span className="badge-soft">Examples</span>
       </div>
       <p className="mt-2 text-sm text-muted">
-        Pick a scenario we see trending. We’ll auto load the prompt and best-fit vibe.
+        Pick a sample prompt and the tool will fill in the description and matching style for you.
       </p>
 
       <div className="mt-5 space-y-3">
@@ -29,10 +29,11 @@ export function InspirationLab({ cards, onApply, onToneSelect, onPromptLoad }: I
                 {entry.icon} {entry.title}
               </span>
               <button
+                type="button"
                 onClick={() => onApply(entry)}
                 className="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-3 py-1 text-xs font-semibold text-white shadow-md shadow-indigo-300/40 transition hover:-translate-y-0.5 hover:bg-indigo-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
               >
-                Apply
+                Use example
               </button>
             </div>
             <p className="mt-2 text-sm text-muted">{entry.prompt}</p>
@@ -43,22 +44,25 @@ export function InspirationLab({ cards, onApply, onToneSelect, onPromptLoad }: I
 
       <div className="mt-5 flex flex-wrap gap-2 text-xs text-muted">
         <button
+          type="button"
           onClick={() => onToneSelect('mysterious')}
           className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-indigo-500 dark:hover:text-indigo-300"
         >
-          Remix with 🕶️ Mysterious
+          Try mysterious
         </button>
         <button
+          type="button"
           onClick={() => onToneSelect('luxury')}
           className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-indigo-500 dark:hover:text-indigo-300"
         >
-          Switch to 💎 Luxury
+          Try luxury
         </button>
         <button
+          type="button"
           onClick={() => onPromptLoad('Product flatlay with crisp lighting and warm shadows')}
           className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-indigo-500 dark:hover:text-indigo-300"
         >
-          Load product flatlay
+          Load product photo example
         </button>
       </div>
     </div>

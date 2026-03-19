@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="space-y-2">
           <p className="text-base font-semibold text-foreground">Caption Wizard AI</p>
           <p className="max-w-md text-sm text-muted">
-            Craft scroll-stopping Instagram, TikTok, and Reels captions with lightning speed. Futuristic vibes. Forever free.
+            Write Instagram, TikTok, and Reel captions in plain English. Describe the post, choose a style, and copy your favorite version.
           </p>
         </div>
 
@@ -20,7 +20,7 @@ export default function Footer() {
             Generator
           </Link>
           <Link href="#vibes" className="transition hover:text-indigo-500 dark:hover:text-indigo-300">
-            Vibes
+            Styles
           </Link>
           <Link href="/faq" className="transition hover:text-indigo-500 dark:hover:text-indigo-300">
             FAQ
@@ -34,7 +34,7 @@ export default function Footer() {
         </nav>
 
         <p className="text-xs text-muted opacity-80">
-          © {year} Caption Wizard AI. Give credit if you vibe with it.
+          © {year} Caption Wizard AI.
         </p>
       </div>
     </footer>

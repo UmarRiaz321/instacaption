@@ -14,7 +14,7 @@ const structuredData = {
   '@type': 'WebSite',
   name: 'Caption Wizard AI',
   url: 'https://captionwizard.pro',
-  description: 'Free AI caption generator for Instagram, TikTok, and Reels with trending vibes and dark mode.',
+  description: 'Simple AI caption generator for Instagram, TikTok, and Reels.',
   publisher: {
     '@type': 'Organization',
     name: 'Caption Wizard AI',
@@ -28,7 +28,7 @@ const structuredData = {
 
 export const metadata: Metadata = {
   title: 'Caption Wizard AI — Free AI Instagram Caption Generator',
-  description: 'Generate social media captions instantly with Caption Wizard AI. Free for everyone, packed with creative tones, hashtags, and SEO-friendly hooks.',
+  description: 'Describe a post, choose a style, and get caption options with hashtags in seconds.',
   keywords: [
     'Instagram caption generator',
     'AI caption maker',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Caption Wizard AI — Free AI Caption Generator',
-    description: 'Turn any idea into scroll-stopping captions in seconds. Futuristic UI, dark mode, and creative vibes included.',
+    description: 'Describe the post, choose a style, and get caption options with hashtags in seconds.',
     url: 'https://captionwizard.pro',
     siteName: 'Caption Wizard AI',
     images: [
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Caption Wizard AI — Free AI Caption Generator',
-    description: 'Describe your vibe and get 3 viral-ready captions instantly. 100% free.',
+    description: 'Describe the post, choose a style, and get caption options with hashtags in seconds.',
     images: ['https://captionwizard.pro/og-image.png'],
     creator: '@umarriaz56',
   },

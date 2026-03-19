@@ -6,8 +6,13 @@ import type { HighlightStat, InspirationCard, VibeGroup } from '../types'
 import { INSPIRATION_DECK, MAX_DESCRIPTION_LENGTH, QUICK_PROMPTS, VIBE_GROUPS } from '../constants'
 
 const USAGE_STORAGE_KEY = 'captionwizard_usage'
+const LAST_PROMPT_STORAGE_KEY = 'captionwizard_last_prompt'
+const LAST_TONE_STORAGE_KEY = 'captionwizard_last_tone'
 const USAGE_LIMIT = 10
 const USAGE_WINDOW_MS = 60 * 60 * 1000
+const DEFAULT_TONE = VIBE_GROUPS[0]?.vibes[0]?.value ?? 'funny'
+
+type CopyTarget = number | 'all' | null
 
 const loadUsage = (): number[] => {
   if (typeof window === 'undefined') return []
@@ -57,10 +62,10 @@ const formatRemainingTime = (ms: number) => {
 
 export function useGenerator(email: string | null) {
   const [description, setDescription] = useState('')
-  const [tone, setTone] = useState(VIBE_GROUPS[0]?.vibes[0]?.value ?? 'funny')
+  const [tone, setTone] = useState(DEFAULT_TONE)
   const [captions, setCaptions] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+  const [copiedTarget, setCopiedTarget] = useState<CopyTarget>(null)
   const [error, setError] = useState<string | null>(null)
   const [usageHistory, setUsageHistory] = useState<number[]>([])
   const [remainingRuns, setRemainingRuns] = useState(USAGE_LIMIT)
@@ -69,16 +74,20 @@ export function useGenerator(email: string | null) {
 
   const characterCount = description.length
   const wordCount = description.trim() ? description.trim().split(/\s+/).length : 0
-  const estimatedTokens = Math.max(1, Math.ceil(characterCount / 4))
   const isOverCharacterLimit = characterCount > MAX_DESCRIPTION_LENGTH
-  const canGenerate = description.trim().length > 0 && !isOverCharacterLimit
+  const timeUntilReset = cooldownUntil ? Math.max(cooldownUntil - now, 0) : 0
+  const isRateLimited = timeUntilReset > 0
+  const canGenerate = description.trim().length > 0 && !isOverCharacterLimit && !isRateLimited
+  const canReset = Boolean(description || captions.length > 0 || tone !== DEFAULT_TONE)
 
   useEffect(() => {
-    const storedDescription = localStorage.getItem('captionwizard_last_prompt')
-    const storedTone = localStorage.getItem('captionwizard_last_tone')
+    const storedDescription = localStorage.getItem(LAST_PROMPT_STORAGE_KEY)
+    const storedTone = localStorage.getItem(LAST_TONE_STORAGE_KEY)
 
     if (storedDescription) setDescription(storedDescription)
-    if (storedTone) setTone(storedTone)
+    if (storedTone && VIBE_GROUPS.some((group) => group.vibes.some((vibe) => vibe.value === storedTone))) {
+      setTone(storedTone)
+    }
   }, [])
 
   useEffect(() => {
@@ -94,13 +103,24 @@ export function useGenerator(email: string | null) {
     if (usage.length >= USAGE_LIMIT) {
       const nextWindow = usage[0] + USAGE_WINDOW_MS
       setCooldownUntil(nextWindow)
-      setError(
-        `You've reached today's free runway. Next caption ready in ${formatRemainingTime(
-          nextWindow - nowTimestamp,
-        )}.`
-      )
+      setError(`Free limit reached. Try again in ${formatRemainingTime(nextWindow - nowTimestamp)}.`)
     }
   }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    if (description) {
+      localStorage.setItem(LAST_PROMPT_STORAGE_KEY, description)
+    } else {
+      localStorage.removeItem(LAST_PROMPT_STORAGE_KEY)
+    }
+  }, [description])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    localStorage.setItem(LAST_TONE_STORAGE_KEY, tone)
+  }, [tone])
 
   useEffect(() => {
     if (!cooldownUntil || typeof window === 'undefined') return
@@ -135,7 +155,7 @@ export function useGenerator(email: string | null) {
     const trimmedDescription = description.trim()
 
     if (!trimmedDescription) {
-      setError('Tell the AI what your photo or video feels like. A sentence or two is perfect!')
+      setError('Describe the photo or video first. One or two short sentences is enough.')
       return
     }
 
@@ -153,7 +173,7 @@ export function useGenerator(email: string | null) {
     if (usage.length >= USAGE_LIMIT) {
       const nextWindow = usage[0] + USAGE_WINDOW_MS
       setCooldownUntil(nextWindow)
-      setError(`You've hit the hourly limit. Next caption ready in ${formatRemainingTime(nextWindow - nowTimestamp)}.`)
+      setError(`Free limit reached. Try again in ${formatRemainingTime(nextWindow - nowTimestamp)}.`)
       track('limit_reached', {
         email: email || 'anonymous',
         remainingMs: Math.max(nextWindow - nowTimestamp, 0),
@@ -163,8 +183,7 @@ export function useGenerator(email: string | null) {
 
     setError(null)
     setLoading(true)
-    setCaptions([])
-    setCopiedIndex(null)
+    setCopiedTarget(null)
 
     try {
       const res = await fetch('/api/generate', {
@@ -173,14 +192,25 @@ export function useGenerator(email: string | null) {
         body: JSON.stringify({ description: trimmedDescription, tone }),
       })
 
+      const data = (await res.json().catch(() => null)) as { captions?: unknown; message?: unknown } | null
+
       if (!res.ok) {
-        throw new Error('Failed to generate captions. Please try again in a moment.')
+        throw new Error(
+          typeof data?.message === 'string'
+            ? data.message
+            : 'Failed to generate captions. Please try again in a moment.'
+        )
       }
 
-      const data = await res.json()
-      setCaptions(data.captions || [])
-      localStorage.setItem('captionwizard_last_prompt', trimmedDescription)
-      localStorage.setItem('captionwizard_last_tone', tone)
+      const nextCaptions = Array.isArray(data?.captions)
+        ? data.captions.filter((caption): caption is string => typeof caption === 'string' && caption.trim().length > 0)
+        : []
+
+      if (nextCaptions.length === 0) {
+        throw new Error('No captions were returned. Please try again.')
+      }
+
+      setCaptions(nextCaptions)
 
       const updatedUsage = [...usage, Date.now()].sort((a, b) => a - b)
       setUsageHistory(updatedUsage)
@@ -203,42 +233,67 @@ export function useGenerator(email: string | null) {
       }).catch(() => {})
     } catch (err) {
       console.error(err)
-      setError('Something glitched. Refresh or try another vibe in a few seconds.')
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
   }, [description, tone, email])
 
-  const handleCopy = useCallback((caption: string, index: number) => {
-    navigator.clipboard.writeText(caption)
-    setCopiedIndex(index)
-    setTimeout(() => setCopiedIndex(null), 1500)
+  const copyToClipboard = useCallback(async (value: string, target: Exclude<CopyTarget, null>) => {
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopiedTarget(target)
+      setError(null)
+      window.setTimeout(() => setCopiedTarget(null), 1500)
+    } catch (err) {
+      console.error(err)
+      setError('Copy failed. You can still select the text and copy it manually.')
+    }
   }, [])
+
+  const handleCopy = useCallback((caption: string, index: number) => {
+    void copyToClipboard(caption, index)
+  }, [copyToClipboard])
+
+  const handleCopyAll = useCallback(() => {
+    if (captions.length === 0) return
+    void copyToClipboard(captions.join('\n\n'), 'all')
+  }, [captions, copyToClipboard])
 
   const handleApplyInspiration = useCallback((entry: InspirationCard) => {
     setDescription(entry.prompt)
     if (entry.tone) {
       setTone(entry.tone)
     }
+    setError(null)
   }, [])
 
-  const handleClearResults = useCallback(() => {
+  const handleReset = useCallback(() => {
+    setDescription('')
+    setTone(DEFAULT_TONE)
     setCaptions([])
+    setCopiedTarget(null)
+    setError(null)
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(LAST_PROMPT_STORAGE_KEY)
+      localStorage.removeItem(LAST_TONE_STORAGE_KEY)
+    }
   }, [])
 
   const highlightStats: HighlightStat[] = useMemo(
     () => [
+      { label: 'Caption options', value: '3' },
       { label: 'Runs left this hour', value: `${Math.max(remainingRuns, 0)}` },
-      { label: 'Prompt words', value: `${wordCount}` },
-      { label: 'Average save boost', value: '23%' },
+      { label: 'Best input length', value: '1-2 lines' },
     ],
-    [remainingRuns, wordCount],
+    [remainingRuns],
   )
 
-  const timeUntilReset = cooldownUntil ? Math.max(cooldownUntil - now, 0) : 0
-  const usageMessage = cooldownUntil && timeUntilReset > 0
-    ? `You've reached the free limit. Next caption in ${formatRemainingTime(timeUntilReset)}.`
-    : `${Math.max(remainingRuns, 0)} free ${remainingRuns === 1 ? 'run' : 'runs'} left this hour.`
+  const usageMessage = isRateLimited
+    ? `Free limit reached. Try again in ${formatRemainingTime(timeUntilReset)}.`
+    : `No sign-up required. ${Math.max(remainingRuns, 0)} free ${
+        remainingRuns === 1 ? 'run' : 'runs'
+      } left this hour.`
 
   const quickPrompts = QUICK_PROMPTS
   const inspirationDeck = INSPIRATION_DECK
@@ -250,13 +305,13 @@ export function useGenerator(email: string | null) {
       tone,
       captions,
       loading,
-      copiedIndex,
+      copiedTarget,
       error,
       characterCount,
       wordCount,
-      estimatedTokens,
       isOverCharacterLimit,
       canGenerate,
+      canReset,
       usageMessage,
       highlightStats,
       quickPrompts,
@@ -268,9 +323,9 @@ export function useGenerator(email: string | null) {
       setTone,
       handleGenerate,
       handleCopy,
+      handleCopyAll,
       handleApplyInspiration,
-      handleClearResults,
-      setCaptions,
+      handleReset,
     },
   }
 }

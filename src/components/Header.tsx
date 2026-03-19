@@ -7,7 +7,7 @@ import ThemeToggle from './ThemeToggle'
 const links = [
   { href: '/blog', label: 'Blog' },
   { href: '/#generator', label: 'Generator' },
-  { href: '/#vibes', label: 'Vibes' },
+  { href: '/#vibes', label: 'Styles' },
   { href: '/#faq', label: 'FAQ' },
 ]
 
@@ -20,7 +20,7 @@ export default function Header() {
             <Logo />
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-foreground dark:text-foreground">Caption Wizard AI</p>
-              <p className="text-xs text-muted">Create viral captions in seconds. 100% free.</p>
+              <p className="text-xs text-muted">Write captions in seconds. No sign-up required.</p>
             </div>
           </div>
 
