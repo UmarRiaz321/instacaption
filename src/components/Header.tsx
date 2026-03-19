@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import Logo from './Logo'
-import ThemeToggle from './ThemeToggle'
 
 const links = [
   { href: '/#generator', label: 'Generator' },
@@ -34,10 +33,6 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-          </div>
-
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
           </div>
         </nav>
       </div>
