@@ -16,19 +16,19 @@ export default function Footer() {
         </div>
 
         <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-muted">
-          <Link href="#generator" className="transition hover:text-indigo-500 dark:hover:text-indigo-300">
+          <Link href="#generator" className="transition hover:text-sky-600 dark:hover:text-sky-300">
             Generator
           </Link>
-          <Link href="#vibes" className="transition hover:text-indigo-500 dark:hover:text-indigo-300">
+          <Link href="#vibes" className="transition hover:text-sky-600 dark:hover:text-sky-300">
             Styles
           </Link>
-          <Link href="/faq" className="transition hover:text-indigo-500 dark:hover:text-indigo-300">
+          <Link href="/faq" className="transition hover:text-sky-600 dark:hover:text-sky-300">
             FAQ
           </Link>
-          <Link href="/privacy" className="transition hover:text-indigo-500 dark:hover:text-indigo-300">
+          <Link href="/privacy" className="transition hover:text-sky-600 dark:hover:text-sky-300">
             Privacy
           </Link>
-          <Link href="/terms" className="transition hover:text-indigo-500 dark:hover:text-indigo-300">
+          <Link href="/terms" className="transition hover:text-sky-600 dark:hover:text-sky-300">
             Terms
           </Link>
         </nav>

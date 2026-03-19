@@ -6,10 +6,10 @@
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     --background-primary: #eef6ff;
-    --background-elevated: rgba(255, 255, 255, 0.8);
-    --background-muted: rgba(236, 245, 255, 0.82);
+    --background-elevated: rgba(255, 255, 255, 0.9);
+    --background-muted: rgba(241, 247, 255, 0.94);
     --foreground-primary: #081121;
-    --foreground-muted: #4b607b;
+    --foreground-muted: #324863;
     --border-subtle: rgba(14, 165, 233, 0.2);
     --accent-primary: #0ea5e9;
     --accent-accent: #2563eb;
@@ -108,7 +108,7 @@
   }
 
   .glass-pill {
-    background: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.84);
     border: 1px solid var(--border-subtle);
     box-shadow: 0 12px 26px -18px var(--accent-soft);
     backdrop-filter: blur(10px);
@@ -220,7 +220,7 @@
 
   .dark .button-secondary {
     background: rgba(15, 23, 42, 0.82);
-    border-color: rgba(129, 140, 248, 0.3);
+    border-color: rgba(56, 189, 248, 0.24);
     color: var(--foreground-primary);
   }
 
