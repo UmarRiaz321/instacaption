@@ -5,9 +5,9 @@ import Logo from './Logo'
 import ThemeToggle from './ThemeToggle'
 
 const links = [
-  { href: '/blog', label: 'Blog' },
   { href: '/#generator', label: 'Generator' },
   { href: '/#vibes', label: 'Styles' },
+  { href: '/blog', label: 'Blog' },
   { href: '/#faq', label: 'FAQ' },
 ]
 
@@ -20,7 +20,7 @@ export default function Header() {
             <Logo />
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-foreground dark:text-foreground">Caption Wizard AI</p>
-              <p className="text-xs text-muted">Write captions in seconds. No sign-up required.</p>
+              <p className="text-xs text-muted">Describe it. Pick a style. Generate.</p>
             </div>
           </div>
 
@@ -29,7 +29,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="transition hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:hover:text-indigo-300"
+                className="transition hover:text-sky-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:hover:text-sky-300"
               >
                 {link.label}
               </Link>

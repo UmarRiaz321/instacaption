@@ -9,9 +9,12 @@ type InspirationLabProps = {
 
 export function InspirationLab({ cards, onApply, onToneSelect, onPromptLoad }: InspirationLabProps) {
   return (
-    <div className="glass-card rounded-3xl p-6 transition-colors">
+    <div className="glass-card rounded-[28px] p-6 transition-colors">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-foreground">Start with an example</h3>
+        <div>
+          <p className="tech-label">Starter Prompts</p>
+          <h3 className="mt-3 text-xl font-semibold text-foreground">Load a fast example</h3>
+        </div>
         <span className="badge-soft">Examples</span>
       </div>
       <p className="mt-2 text-sm text-muted">
@@ -22,7 +25,7 @@ export function InspirationLab({ cards, onApply, onToneSelect, onPromptLoad }: I
         {cards.map((entry) => (
           <article
             key={entry.title}
-            className="rounded-2xl border border-transparent bg-[var(--background-muted)] px-4 py-3 transition hover:-translate-y-0.5 hover:border-indigo-300/60"
+            className="rounded-2xl border border-transparent bg-[var(--background-muted)] px-4 py-3 transition hover:-translate-y-0.5 hover:border-sky-300/60"
           >
             <div className="flex items-center justify-between gap-3">
               <span className="text-sm font-semibold text-foreground">
@@ -31,7 +34,7 @@ export function InspirationLab({ cards, onApply, onToneSelect, onPromptLoad }: I
               <button
                 type="button"
                 onClick={() => onApply(entry)}
-                className="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-3 py-1 text-xs font-semibold text-white shadow-md shadow-indigo-300/40 transition hover:-translate-y-0.5 hover:bg-indigo-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                className="inline-flex items-center gap-2 rounded-full bg-sky-500 px-3 py-1 text-xs font-semibold text-white shadow-md shadow-sky-300/40 transition hover:-translate-y-0.5 hover:bg-sky-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
               >
                 Use example
               </button>
@@ -46,21 +49,21 @@ export function InspirationLab({ cards, onApply, onToneSelect, onPromptLoad }: I
         <button
           type="button"
           onClick={() => onToneSelect('mysterious')}
-          className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-indigo-500 dark:hover:text-indigo-300"
+          className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-sky-600 dark:hover:text-sky-300"
         >
           Try mysterious
         </button>
         <button
           type="button"
           onClick={() => onToneSelect('luxury')}
-          className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-indigo-500 dark:hover:text-indigo-300"
+          className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-sky-600 dark:hover:text-sky-300"
         >
           Try luxury
         </button>
         <button
           type="button"
           onClick={() => onPromptLoad('Product flatlay with crisp lighting and warm shadows')}
-          className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-indigo-500 dark:hover:text-indigo-300"
+          className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 transition hover:-translate-y-0.5 hover:text-sky-600 dark:hover:text-sky-300"
         >
           Load product photo example
         </button>

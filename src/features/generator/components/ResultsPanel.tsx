@@ -17,8 +17,9 @@ export function ResultsPanel({
 }: ResultsPanelProps) {
   if (captions.length === 0) {
     return (
-      <section className="glass-card rounded-3xl p-8 transition-colors" id="results">
-        <h2 className="text-2xl font-semibold text-foreground">How it works</h2>
+      <section className="glass-card rounded-[32px] p-8 transition-colors" id="results">
+        <p className="tech-label">Result Flow</p>
+        <h2 className="mt-3 text-2xl font-semibold text-foreground">How it works</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <article className="rounded-2xl bg-[var(--background-muted)] p-5">
             <p className="text-sm font-semibold text-foreground">1. Describe the post</p>
@@ -49,7 +50,7 @@ export function ResultsPanel({
             <button
               type="button"
               onClick={onCopyAll}
-              className="glass-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-muted transition hover:-translate-y-0.5 hover:text-indigo-500 dark:hover:text-indigo-300"
+              className="glass-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-muted transition hover:-translate-y-0.5 hover:text-sky-600 dark:hover:text-sky-300"
             >
               {copiedTarget === 'all' ? 'Copied all' : 'Copy all'}
             </button>
@@ -57,7 +58,7 @@ export function ResultsPanel({
               type="button"
               onClick={onRegenerate}
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-full border border-indigo-400/60 px-4 py-2 text-sm font-semibold text-indigo-500 transition hover:-translate-y-0.5 hover:border-indigo-500 hover:text-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:cursor-not-allowed disabled:opacity-60 dark:border-indigo-500/40 dark:text-indigo-300 dark:hover:text-indigo-200"
+              className="inline-flex items-center gap-2 rounded-full border border-sky-400/60 px-4 py-2 text-sm font-semibold text-sky-600 transition hover:-translate-y-0.5 hover:border-sky-500 hover:text-sky-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-60 dark:border-sky-400/30 dark:text-sky-300 dark:hover:text-sky-200"
             >
               {loading ? 'Writing new options...' : 'Generate another set'}
             </button>
@@ -67,15 +68,15 @@ export function ResultsPanel({
         <div className="grid gap-4 md:grid-cols-2">
           {captions.map((caption, index) => (
             <article key={index} className="glass-card group relative overflow-hidden rounded-3xl p-6 transition hover:-translate-y-1">
-              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-400 via-sky-400 to-purple-400 opacity-70 transition group-hover:opacity-100" />
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted">Option {index + 1}</p>
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 opacity-70 transition group-hover:opacity-100" />
+              <p className="tech-label !tracking-[0.18em] text-muted">Option {index + 1}</p>
               <p className="text-base leading-relaxed text-foreground">{caption}</p>
               <div className="mt-4 flex items-center justify-between text-sm text-muted">
                 <span>Ready to edit or post</span>
                 <button
                   type="button"
                   onClick={() => onCopy(caption, index)}
-                  className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium text-muted transition hover:-translate-y-0.5 hover:text-indigo-500 dark:hover:text-indigo-300"
+                  className="glass-pill inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium text-muted transition hover:-translate-y-0.5 hover:text-sky-600 dark:hover:text-sky-300"
                 >
                   {copiedTarget === index ? 'Copied' : 'Copy'}
                 </button>

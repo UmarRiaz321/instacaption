@@ -75,47 +75,70 @@ export default function Home() {
   }
 
   return (
-    <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-24 pt-12 lg:px-6">
-      <section id="generator" className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.4fr_1fr]">
-        <div className="space-y-8">
-          <GeneratorHero stats={highlightStats} />
+    <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 pb-24 pt-10 lg:px-6">
+      <section id="generator" className="console-frame rounded-[36px] p-5 sm:p-6 lg:p-8">
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.7),transparent)]"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -right-10 top-12 h-40 w-40 rounded-full bg-sky-300/20 blur-3xl dark:bg-cyan-400/10"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -left-12 bottom-8 h-32 w-32 rounded-full bg-blue-400/10 blur-3xl dark:bg-sky-400/10"
+          aria-hidden="true"
+        />
 
-          <div className="space-y-6">
-            <PromptEditor
-              description={description}
-              onChange={setDescription}
-              onKeyDown={handlePromptKeyDown}
-              quickPrompts={quickPrompts}
-              characterCount={characterCount}
-              wordCount={wordCount}
-              maxCharacters={MAX_DESCRIPTION_LENGTH}
-              isOverLimit={isOverCharacterLimit}
-            />
+        <div className="relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+          <div className="order-2 lg:order-1">
+            <GeneratorHero stats={highlightStats} />
+          </div>
 
-            <VibeSelector groups={vibeGroups} selected={tone} onSelect={setTone} />
+          <div className="order-1 rounded-[32px] border border-white/40 bg-[linear-gradient(180deg,rgba(255,255,255,0.5),rgba(232,244,255,0.68))] p-5 shadow-[0_40px_100px_-60px_rgba(14,165,233,0.6)] backdrop-blur-xl dark:border-sky-400/10 dark:bg-[linear-gradient(180deg,rgba(4,18,36,0.66),rgba(7,24,48,0.88))] lg:order-2 lg:p-6">
+            <div className="flex flex-col gap-3 border-b border-[var(--border-subtle)] pb-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="tech-label">Primary Widget</p>
+                <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-foreground">
+                  Create a caption in one pass
+                </h2>
+              </div>
+              <span className="glass-pill rounded-full px-3 py-1.5 text-xs font-medium text-muted">
+                Text input, style pick, generate
+              </span>
+            </div>
 
-            <ActionBar
-              primaryLabel={loading ? 'Writing captions...' : 'Generate captions'}
-              secondaryLabel="Start over"
-              onPrimary={handleGenerate}
-              onSecondary={handleReset}
-              disablePrimary={loading || !canGenerate}
-              disableSecondary={loading || !canReset}
-              usageMessage={usageMessage}
-              error={error}
-            />
+            <div className="mt-6 space-y-8">
+              <PromptEditor
+                description={description}
+                onChange={setDescription}
+                onKeyDown={handlePromptKeyDown}
+                quickPrompts={quickPrompts}
+                characterCount={characterCount}
+                wordCount={wordCount}
+                maxCharacters={MAX_DESCRIPTION_LENGTH}
+                isOverLimit={isOverCharacterLimit}
+              />
+
+              <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.35),transparent)]" />
+
+              <VibeSelector groups={vibeGroups} selected={tone} onSelect={setTone} />
+
+              <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.35),transparent)]" />
+
+              <ActionBar
+                primaryLabel={loading ? 'Writing captions...' : 'Generate captions'}
+                secondaryLabel="Start over"
+                onPrimary={handleGenerate}
+                onSecondary={handleReset}
+                disablePrimary={loading || !canGenerate}
+                disableSecondary={loading || !canReset}
+                usageMessage={usageMessage}
+                error={error}
+              />
+            </div>
           </div>
         </div>
-
-        <aside className="space-y-6">
-          <WorkflowTips />
-          <InspirationLab
-            cards={inspirationDeck}
-            onApply={handleApplyInspiration}
-            onToneSelect={setTone}
-            onPromptLoad={setDescription}
-          />
-        </aside>
       </section>
 
       <ResultsPanel
@@ -127,7 +150,17 @@ export default function Home() {
         onRegenerate={handleGenerate}
       />
 
-      <section id="faq" className="glass-card rounded-3xl p-8 transition-colors">
+      <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <InspirationLab
+          cards={inspirationDeck}
+          onApply={handleApplyInspiration}
+          onToneSelect={setTone}
+          onPromptLoad={setDescription}
+        />
+        <WorkflowTips />
+      </section>
+
+      <section id="faq" className="glass-card rounded-[32px] p-8 transition-colors">
         <h2 className="text-2xl font-semibold text-foreground">Common questions</h2>
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           {creatorFAQs.map((item) => (
