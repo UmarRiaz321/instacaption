@@ -34,14 +34,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const imageUrl = new URL(currentPost.heroImage, SITE_URL).toString()
 
   return {
-    title: `${currentPost.title} — Caption Wizard AI Blog`,
+    title: `${currentPost.title} | Caption Wizard AI`,
     description: currentPost.shortDescription,
+    keywords: currentPost.tags,
     alternates: {
       canonical: `/blog/${currentPost.slug}`,
     },
     authors: [{ name: currentPost.author }],
     openGraph: {
-      title: `${currentPost.title} — Caption Wizard AI Blog`,
+      title: `${currentPost.title} | Caption Wizard AI`,
       description: currentPost.shortDescription,
       url: `https://captionwizard.pro/blog/${currentPost.slug}`,
       type: 'article',
@@ -93,7 +94,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     keywords: post.tags.join(', '),
     articleSection: post.category,
     author: {
-      '@type': 'Organization',
+      '@type': 'Person',
       name: post.author,
     },
     image: heroImageUrl,
@@ -117,7 +118,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             href="/blog"
             className="transition hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:hover:text-indigo-300"
           >
-            ← Back to Archive
+            ← Back to All Guides
           </Link>
           <span>{post.readingTime}</span>
         </div>
@@ -130,6 +131,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.3em] text-muted">
+            <span>{post.author}</span>
+            <span className="hidden h-1 w-1 rounded-full bg-muted/70 sm:inline-block" />
             <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
             <span className="hidden h-1 w-1 rounded-full bg-muted/70 sm:inline-block" />
             <div className="flex flex-wrap gap-2">
@@ -160,7 +163,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </figure>
           <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-500">
-              Overview
+              What You&apos;ll Learn
             </p>
             <p className="mt-3 text-base leading-relaxed text-muted">{post.shortDescription}</p>
           </div>
@@ -204,6 +207,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </section>
           ))}
         </div>
+
+        <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-500">
+            Try the Tool
+          </p>
+          <h2 className="mt-3 text-2xl font-semibold text-[var(--foreground-primary)]">
+            Turn this guide into faster caption drafts
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted">
+            Use the main caption generator to apply the framework from this article, test different tones,
+            and create ready-to-edit captions with matching hashtags for Instagram, TikTok, and Reels.
+          </p>
+          <Link
+            href="/#generator"
+            className="inline-flex mt-5 items-center justify-center rounded-full bg-indigo-500 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-indigo-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:bg-indigo-400 dark:text-slate-950 dark:hover:bg-indigo-300"
+          >
+            Open the AI caption generator
+          </Link>
+        </section>
       </div>
     </article>
   )

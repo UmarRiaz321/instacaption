@@ -17,41 +17,43 @@ export function VibeSelector({ groups, selected, onSelect }: VibeSelectorProps) 
   const selectedVibe = vibes.find((vibe) => vibe.value === selected) ?? vibes[0]
 
   return (
-    <section className="space-y-3" id="vibes">
+    <section className="max-w-xl space-y-3" id="vibes">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="tech-label">02 / Style</p>
-          <h2 className="mt-3 text-lg font-semibold text-foreground">Pick the tone</h2>
-          <p className="mt-1 text-sm text-muted">Tap once to change how the caption sounds.</p>
+          <label htmlFor="caption-style" className="mt-3 block text-lg font-semibold text-foreground">
+            Pick a style
+          </label>
+          <p className="mt-1 text-sm text-muted">Choose how the caption should sound before you generate.</p>
         </div>
         {selectedVibe?.badge && <span className="badge-soft mt-1">{selectedVibe.badge}</span>}
       </div>
-      <div className="flex flex-wrap gap-2.5">
-        {vibes.map((vibe) => {
-          const isSelected = selected === vibe.value
-
-          return (
-            <button
-              key={vibe.value}
-              type="button"
-              onClick={() => onSelect(vibe.value)}
-              aria-pressed={isSelected}
-              aria-label={`Set caption tone to ${vibe.label}`}
-              title={`Switch tone to ${vibe.label}`}
-              className={`rounded-full border px-4 py-2.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
-                isSelected
-                  ? 'border-sky-400 bg-[linear-gradient(135deg,rgba(14,165,233,0.18),rgba(37,99,235,0.18))] text-foreground shadow-[0_18px_35px_-18px_rgba(14,165,233,0.32)]'
-                  : 'border-[var(--border-subtle)] bg-[rgba(255,255,255,0.88)] text-muted hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-700 dark:bg-slate-950/20 dark:hover:text-sky-300'
-              }`}
-            >
-              {vibe.label}
-            </button>
-          )
-        })}
+      <div className="relative">
+        <select
+          id="caption-style"
+          value={selected}
+          onChange={(event) => onSelect(event.target.value)}
+          className="w-full appearance-none rounded-[22px] border border-[var(--border-subtle)] bg-[rgba(7,24,47,0.64)] px-4 py-3 pr-12 text-base text-foreground outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-300/20"
+        >
+          {groups.map((group) => (
+            <optgroup key={group.title} label={group.title}>
+              {group.vibes.map((vibe) => (
+                <option key={vibe.value} value={vibe.value}>
+                  {vibe.label}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+        <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-muted" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5" stroke="currentColor" strokeWidth="1.6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m5 7 5 6 5-6" />
+          </svg>
+        </span>
       </div>
 
       {selectedVibe && (
-        <div className="rounded-[20px] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.76)] px-4 py-3 dark:bg-[rgba(4,18,36,0.42)]">
+        <div className="rounded-[20px] border border-[var(--border-subtle)] bg-[rgba(7,24,47,0.44)] px-4 py-3">
           <p className="text-sm font-medium text-foreground">
             <span className="font-semibold">{selectedVibe.label}:</span> {selectedVibe.description}
           </p>

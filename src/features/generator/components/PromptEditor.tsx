@@ -44,52 +44,63 @@ export function PromptEditor({
         </div>
         <span className="text-xs font-medium text-muted">Shortcut: Cmd+Enter / Ctrl+Enter</span>
       </div>
-      <textarea
-        id="description"
-        rows={3}
-        aria-describedby="description-help description-limit"
-        className="min-h-[112px] w-full resize-none rounded-[26px] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.92)] px-4 py-3 text-base leading-7 text-foreground shadow-[0_24px_60px_-48px_rgba(14,116,144,0.42)] outline-none transition placeholder:text-slate-500 focus:border-sky-400 focus:ring-4 focus:ring-sky-300/20 dark:bg-[linear-gradient(180deg,rgba(6,18,35,0.75),rgba(9,25,48,0.92))] dark:placeholder:text-slate-400"
-        placeholder="Example: Late-night product launch photo with the team celebrating around the screen."
-        value={description}
-        onChange={(event) => onChange(event.target.value)}
-        onKeyDown={onKeyDown}
-      />
 
-      <div className="flex flex-wrap items-center gap-2.5">
-        <p className="tech-label">Try an example</p>
-        {visiblePrompts.map((prompt) => (
-          <button
-            key={prompt}
-            type="button"
-            onClick={() => onChange(prompt)}
-            className="glass-pill rounded-full px-3 py-1.5 text-xs font-medium text-muted transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:hover:text-sky-300"
-          >
-            {prompt}
-          </button>
-        ))}
-      </div>
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_300px] xl:items-start">
+        <div className="space-y-4">
+          <textarea
+            id="description"
+            rows={3}
+            aria-describedby="description-help description-limit"
+            className="min-h-[118px] w-full resize-none rounded-[26px] border border-[var(--border-subtle)] bg-[rgba(7,24,47,0.64)] px-4 py-3 text-base leading-7 text-foreground shadow-[0_24px_60px_-48px_rgba(2,132,199,0.4)] outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-300/20"
+            placeholder="Example: Late-night product launch photo with the team celebrating around the screen."
+            value={description}
+            onChange={(event) => onChange(event.target.value)}
+            onKeyDown={onKeyDown}
+          />
 
-      <div className="flex flex-wrap gap-2">
-        <div className={metricClass}>
-          <span className="uppercase tracking-wide">Words</span>
-          <span className="text-foreground">{wordCount}</span>
+          <div className="flex flex-wrap gap-2">
+            <div className={metricClass}>
+              <span className="uppercase tracking-wide">Words</span>
+              <span className="text-foreground">{wordCount}</span>
+            </div>
+            <div className={metricClass}>
+              <span className="uppercase tracking-wide">Characters</span>
+              <span className={isOverLimit ? 'text-rose-400' : 'text-foreground'}>
+                {characterCount}/{maxCharacters}
+              </span>
+            </div>
+            <div className={metricClass}>
+              <span className="uppercase tracking-wide">Works best with</span>
+              <span className="text-foreground">1-2 lines</span>
+            </div>
+          </div>
+
+          <p id="description-limit" className={`text-xs leading-6 ${isOverLimit ? 'text-rose-400' : 'text-muted'}`}>
+            {isOverLimit
+              ? `Trim ${characterCount - maxCharacters} characters to keep the request clear.`
+              : 'Keep it simple: setting, subject, and mood usually give the best results.'}
+          </p>
         </div>
-        <div className={metricClass}>
-          <span className="uppercase tracking-wide">Characters</span>
-          <span className={isOverLimit ? 'text-rose-500' : 'text-foreground'}>
-            {characterCount}/{maxCharacters}
-          </span>
-        </div>
-        <div className={metricClass}>
-          <span className="uppercase tracking-wide">Works best with</span>
-          <span className="text-foreground">1-2 lines</span>
-        </div>
+
+        <aside className="rounded-[24px] border border-[var(--border-subtle)] bg-[rgba(7,24,47,0.5)] px-4 py-4">
+          <p className="tech-label">Example Prompts</p>
+          <p className="mt-2 text-sm leading-6 text-muted">
+            Click one to fill the input instantly.
+          </p>
+          <div className="mt-4 grid gap-2">
+            {visiblePrompts.map((prompt) => (
+              <button
+                key={prompt}
+                type="button"
+                onClick={() => onChange(prompt)}
+                className="rounded-2xl border border-[var(--border-subtle)] bg-[rgba(2,12,27,0.56)] px-4 py-3 text-left text-sm font-medium text-muted transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              >
+                {prompt}
+              </button>
+            ))}
+          </div>
+        </aside>
       </div>
-      <p id="description-limit" className={`text-xs leading-6 ${isOverLimit ? 'text-rose-500' : 'text-muted'}`}>
-        {isOverLimit
-          ? `Trim ${characterCount - maxCharacters} characters to keep the request clear.`
-          : 'Keep it simple: setting, subject, and mood usually give the best results.'}
-      </p>
     </section>
   )
 }

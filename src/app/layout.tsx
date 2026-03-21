@@ -37,18 +37,18 @@ const structuredData = [
     applicationCategory: 'ProductivityApplication',
     operatingSystem: 'Web',
     description:
-      'AI caption generator for Instagram, TikTok, Reels, Shorts, and social media posts.',
+      'Free AI caption generator with hashtags for Instagram, TikTok, Reels, Shorts, and social media posts.',
     offers: {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'USD',
     },
     featureList: [
-      'AI caption generator',
-      'Instagram caption ideas',
-      'TikTok caption ideas',
-      'Reels caption writer',
-      'Hashtag generation',
+      'Free AI Instagram caption generator',
+      'TikTok caption generator',
+      'Reels caption generator',
+      'Caption generator with hashtags',
+      'Social media caption writer',
       'Tone and style selection',
     ],
     publisher: {
@@ -59,26 +59,9 @@ const structuredData = [
 ] as const
 
 export const metadata: Metadata = {
-  title: 'AI Caption Generator for Instagram, TikTok & Reels | Caption Wizard AI',
+  title: 'Free AI Caption Generator With Hashtags for Instagram, TikTok & Reels | Caption Wizard AI',
   description:
-    'Free AI caption generator for Instagram, TikTok, Reels, and social media posts. Generate caption ideas, hooks, and hashtags in seconds.',
-  keywords: [
-    'ai caption generator',
-    'Instagram caption generator',
-    'TikTok caption generator',
-    'Reels caption generator',
-    'social media caption generator',
-    'AI caption maker',
-    'caption writer',
-    'caption ideas',
-    'Instagram caption ideas',
-    'TikTok caption ideas',
-    'Reels caption ideas',
-    'hashtag generator',
-    'social media captions',
-    'free caption tool',
-    'AI writing tool',
-  ],
+    'Free AI caption generator with hashtags for Instagram, TikTok, and Reels. Generate social media captions, hooks, and caption ideas in seconds with no sign-up.',
   applicationName: 'Caption Wizard AI',
   category: 'technology',
   creator: 'Caption Wizard AI',
@@ -119,9 +102,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'AI Caption Generator for Instagram, TikTok & Reels | Caption Wizard AI',
+    title: 'Free AI Caption Generator With Hashtags for Instagram, TikTok & Reels',
     description:
-      'Generate social media captions, hooks, and hashtags for Instagram, TikTok, Reels, and Shorts.',
+      'Generate Instagram captions, TikTok captions, Reel captions, and hashtags in seconds with a free AI caption generator.',
     url: 'https://captionwizard.pro',
     siteName: 'Caption Wizard AI',
     locale: 'en_US',
@@ -137,9 +120,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Caption Generator for Instagram, TikTok & Reels',
+    title: 'Free AI Caption Generator With Hashtags for Instagram, TikTok & Reels',
     description:
-      'Generate caption ideas, hooks, and hashtags for Instagram, TikTok, Reels, and social posts.',
+      'Generate captions, hooks, and hashtags for Instagram, TikTok, Reels, and social posts.',
     images: ['https://captionwizard.pro/og-image.png'],
     creator: '@umarriaz56',
   },

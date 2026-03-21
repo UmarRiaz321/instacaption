@@ -1,12 +1,12 @@
 'use client'
 
-import type { KeyboardEvent } from 'react'
+import { useEffect, useState, type KeyboardEvent } from 'react'
 import { useUser } from '@/context/UserContext'
 import { useGenerator } from '@/features/generator/hooks/useGenerator'
 import { ActionBar } from '@/features/generator/components/ActionBar'
 import { InspirationLab } from '@/features/generator/components/InspirationLab'
 import { PromptEditor } from '@/features/generator/components/PromptEditor'
-import { ResultsPanel } from '@/features/generator/components/ResultsPanel'
+import { ResultsModal } from '@/features/generator/components/ResultsModal'
 import { VibeSelector } from '@/features/generator/components/VibeSelector'
 import { WorkflowTips } from '@/features/generator/components/WorkflowTips'
 import { MAX_DESCRIPTION_LENGTH } from '@/features/generator/constants'
@@ -28,26 +28,19 @@ const creatorFAQs = [
       'Yes. The app currently gives you 10 free runs per hour without requiring an account.',
   },
   {
+    question: 'Does it include hashtags?',
+    answer:
+      'Yes. Every generated caption set includes matching hashtags so you can use it as a caption generator with hashtags, not just a caption writer.',
+  },
+  {
     question: 'Will this work for TikTok or Reels?',
     answer:
       'Yes. The output is short enough to adapt for Instagram, TikTok, Reels, Shorts, and similar social posts.',
   },
 ]
 
-const faqStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: creatorFAQs.map((item) => ({
-    '@type': 'Question',
-    name: item.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: item.answer,
-    },
-  })),
-} as const
-
 export default function Home() {
+  const [isResultsOpen, setIsResultsOpen] = useState(false)
   const { email } = useUser()
   const {
     state: {
@@ -78,11 +71,25 @@ export default function Home() {
     },
   } = useGenerator(email ?? null)
 
+  useEffect(() => {
+    if (captions.length > 0) {
+      setIsResultsOpen(true)
+      return
+    }
+
+    setIsResultsOpen(false)
+  }, [captions])
+
   const handlePromptKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
       event.preventDefault()
-      handleGenerate()
+      void handleGenerate()
     }
+  }
+
+  const handleResetWorkspace = () => {
+    setIsResultsOpen(false)
+    handleReset()
   }
 
   return (
@@ -108,28 +115,28 @@ export default function Home() {
         <div className="relative mx-auto flex w-full max-w-[1400px] flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
           <div className="grid gap-6 border-b border-[var(--border-subtle)] pb-8 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
             <div className="max-w-3xl space-y-3">
-              <p className="tech-label">AI Caption Generator</p>
+              <p className="tech-label">Free AI Caption Generator</p>
               <h1 id="generator-heading" className="text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-5xl">
-                Generate captions for Instagram, TikTok, and Reels
+                Free AI caption generator with hashtags for Instagram, TikTok, and Reels
               </h1>
               <p id="generator-summary" className="max-w-2xl text-base leading-7 text-muted sm:text-lg">
-                Describe the post in plain language, pick a vibe, and get ready-to-post captions with matching hashtags in one clean workflow.
+                Use this AI Instagram caption generator to write social media captions, hooks, and hashtags in seconds. Describe the post, choose a style, and open your saved results in a popup any time.
               </p>
             </div>
             <div className="flex flex-wrap gap-2 xl:max-w-md xl:justify-end">
               <span className="glass-pill rounded-full px-3 py-1.5 text-xs font-medium text-muted">
-                No prompt syntax
+                Free caption generator
               </span>
               <span className="glass-pill rounded-full px-3 py-1.5 text-xs font-medium text-muted">
-                Built for non-technical users
+                Hashtags included
               </span>
               <span className="glass-pill rounded-full px-3 py-1.5 text-xs font-medium text-muted">
-                Results stay below
+                Results saved until reset
               </span>
             </div>
           </div>
 
-          <div className="w-full max-w-5xl space-y-7">
+          <div className="w-full max-w-5xl space-y-6">
             <PromptEditor
               description={description}
               onChange={setDescription}
@@ -151,22 +158,30 @@ export default function Home() {
               primaryLabel={loading ? 'Writing captions...' : 'Generate captions'}
               secondaryLabel="Start over"
               onPrimary={handleGenerate}
-              onSecondary={handleReset}
+              onSecondary={handleResetWorkspace}
               disablePrimary={loading || !canGenerate}
               disableSecondary={loading || !canReset}
               usageMessage={usageMessage}
               error={error}
             />
 
-            <div className="h-px bg-[linear-gradient(90deg,transparent,rgba(14,165,233,0.18),transparent)]" />
-
-            <ResultsPanel
-              captions={captions}
-              copiedTarget={copiedTarget}
-              loading={loading}
-              onCopy={handleCopy}
-              onCopyAll={handleCopyAll}
-            />
+            {captions.length > 0 && !isResultsOpen && (
+              <div className="flex flex-col gap-3 rounded-[24px] border border-[var(--border-subtle)] bg-[rgba(7,24,47,0.48)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Latest results saved</p>
+                  <p className="mt-1 text-sm leading-6 text-muted">
+                    Reopen the popup any time until you start over.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsResultsOpen(true)}
+                  className="button-secondary w-full justify-center sm:w-auto"
+                >
+                  View results
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -194,9 +209,14 @@ export default function Home() {
           </div>
         </section>
       </div>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+      <ResultsModal
+        open={isResultsOpen}
+        onClose={() => setIsResultsOpen(false)}
+        captions={captions}
+        copiedTarget={copiedTarget}
+        loading={loading}
+        onCopy={handleCopy}
+        onCopyAll={handleCopyAll}
       />
     </div>
   )

@@ -20,13 +20,13 @@ export function ResultsPanel({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="tech-label">04 / Results</p>
-          <h2 className="mt-2 text-lg font-semibold text-foreground">Results</h2>
+          <h2 id="results-heading" className="mt-2 text-lg font-semibold text-foreground">Generated captions</h2>
           <p className="mt-1 text-sm leading-6 text-muted">
             {loading && !hasCaptions
               ? 'Writing your captions now.'
               : hasCaptions
-                ? 'Review the set below and copy the one you want to use.'
-                : 'The generated captions will appear below after you click generate.'}
+                ? 'Your latest caption set stays available here until you start over.'
+                : 'Generate to open your caption set here.'}
           </p>
         </div>
         {hasCaptions && (
@@ -44,7 +44,7 @@ export function ResultsPanel({
         <div className="rounded-[22px] border border-dashed border-[var(--border-subtle)] bg-[rgba(255,255,255,0.52)] px-5 py-5 dark:bg-[rgba(4,18,36,0.35)]">
           <p className="text-sm font-semibold text-foreground">Ready when you are.</p>
           <p className="mt-1 text-sm leading-6 text-muted">
-            Generate to see caption suggestions with matching hashtags in this same panel.
+            Generate to see caption suggestions with matching hashtags in this popup.
           </p>
         </div>
       )}

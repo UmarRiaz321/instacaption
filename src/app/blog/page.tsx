@@ -8,16 +8,26 @@ const SITE_URL = 'https://captionwizard.pro'
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`
 
 export const metadata: Metadata = {
-  title: 'Caption Wizard AI Blog — Social Caption Strategies & Updates',
+  title: 'Instagram Caption Ideas, TikTok Captions & Hashtag Guides | Caption Wizard AI Blog',
   description:
-    'Browse backdated updates on caption trends, AI-powered workflows, and campaign playbooks curated for Caption Wizard AI creators.',
+    'Browse 30 backdated long-form guides on Instagram caption ideas, TikTok captions, Reels captions, hashtag strategy, social media SEO, and AI caption workflows.',
+  keywords: [
+    'instagram caption ideas',
+    'tiktok captions',
+    'reels captions',
+    'caption generator with hashtags',
+    'social media caption ideas',
+    'instagram hashtags',
+    'small business instagram captions',
+    'ai caption generator blog',
+  ],
   alternates: {
     canonical: '/blog',
   },
   openGraph: {
-    title: 'Caption Wizard AI Blog',
+    title: 'Instagram Caption Ideas, TikTok Captions & Hashtag Guides',
     description:
-      'Discover archived insights on social caption strategy, platform updates, and AI-assisted storytelling.',
+      'Long-form guides on Instagram caption ideas, TikTok captions, Reels strategy, hashtags, and AI-assisted caption writing.',
     url: `${SITE_URL}/blog`,
     siteName: 'Caption Wizard AI',
     type: 'website',
@@ -32,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Caption Wizard AI Blog',
+    title: 'Instagram Caption Ideas, TikTok Captions & Hashtag Guides',
     description:
-      'Backdated coverage of social caption tactics, performance benchmarks, and AI workflow ideas.',
+      'Backdated long-form guides on captions, hashtags, Reels, TikTok, and AI-assisted social writing.',
     images: [DEFAULT_IMAGE],
   },
 }
@@ -45,7 +55,7 @@ const listStructuredData = {
   url: `${SITE_URL}/blog`,
   name: 'Caption Wizard AI Blog',
   description:
-    'Backdated journal covering caption tactics, performance benchmarks, and Caption Wizard AI product notes.',
+    'Backdated library of long-form caption guides covering Instagram captions, TikTok captions, Reels, hashtags, and AI writing workflows.',
   publisher: {
     '@type': 'Organization',
     name: 'Caption Wizard AI',
@@ -81,11 +91,14 @@ export default function BlogPage() {
       <div className="mx-auto flex max-w-5xl flex-col gap-12">
         <div className="flex flex-col gap-6">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-500">
-            Blog Archive
+            Caption Strategy Library
           </p>
           <h1 className="text-4xl font-bold tracking-tight text-[var(--foreground-primary)] md:text-5xl">
-            Caption Wizard AI Newsroom
+            Instagram, TikTok, Reels, and Hashtag Guides
           </h1>
+          <p className="max-w-3xl text-base leading-7 text-muted">
+            Explore backdated, search-focused guides built around real caption problems: better Instagram caption ideas, stronger TikTok hooks, clearer Reels copy, smarter hashtag strategy, and practical AI caption workflows.
+          </p>
         </div>
 {/* 
         <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-elevated)] p-6 shadow-sm">
@@ -105,9 +118,9 @@ export default function BlogPage() {
 
         <div className="grid gap-6">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-[var(--foreground-primary)]">All Posts</h2>
+            <h2 className="text-xl font-semibold text-[var(--foreground-primary)]">All Guides</h2>
             <p className="text-xs uppercase tracking-[0.3em] text-muted">
-              {sortedPosts.length} entries
+              {sortedPosts.length} long-form articles
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
